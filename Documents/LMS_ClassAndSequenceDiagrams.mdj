@@ -1624,7 +1624,7 @@
 											"top": 428,
 											"width": 126.83251953125,
 											"height": 13,
-											"text": "+maxCheckoutLength",
+											"text": "-maxCheckoutLength",
 											"horizontalAlignment": 0
 										}
 									],
@@ -3962,6 +3962,7 @@
 								"$ref": "AAAAAAF8TMstzclaMeA="
 							},
 							"name": "maxCheckoutLength",
+							"visibility": "private",
 							"type": ""
 						}
 					]
