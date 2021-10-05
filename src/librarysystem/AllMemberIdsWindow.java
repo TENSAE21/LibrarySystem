@@ -71,6 +71,7 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 	public void setData(String data) {
 		textArea.setText(data);
 	}
+
 	private void addBackButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 		   LibrarySystem.hideAllWindows();
@@ -80,14 +81,12 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 
 	@Override
 	public boolean isInitialized() {
-		
 		return isInitialized;
 	}
 
 	@Override
 	public void isInitialized(boolean val) {
 		isInitialized = val;
-		
 	}
 	
 }
