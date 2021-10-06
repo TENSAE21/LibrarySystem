@@ -75,6 +75,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 		mainPanel.add(upperHalf, BorderLayout.NORTH);
 		mainPanel.add(middleHalf, BorderLayout.CENTER);
 		//mainPanel.add(lowerHalf, BorderLayout.SOUTH);
+
 		getContentPane().add(mainPanel);
 		isInitialized(true);
 		pack();
@@ -192,12 +193,20 @@ public class LoginWindow extends JFrame implements LibWindow {
 			SystemController systemController = new SystemController();
 			String inputUserid = userid.getText();
 			String inputPassword = password.getText();
+			System.out.println(inputUserid + "_" + inputPassword);
 			if(inputUserid.trim().length() == 0 || inputPassword.trim().length() == 0)
 				JOptionPane.showMessageDialog(this,"User Id and Password must not be empty", "Message",  JOptionPane.WARNING_MESSAGE);
 			else {
 				try {
 					systemController.login(inputUserid, inputPassword);
-					JOptionPane.showMessageDialog(this,"Successful Login", "Message",  JOptionPane.INFORMATION_MESSAGE);
+					//JOptionPane.showMessageDialog(this,"Successful Login", "Message",  JOptionPane.INFORMATION_MESSAGE);
+					LibrarySystem.hideAllWindows();
+					
+					JFrame frame = new SharedWindow();
+					frame.setTitle("Library System");
+					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					Main.centerFrameOnDesktop(frame);
+					frame.setVisible(true);
 				} catch (LoginException e) {
 					JOptionPane.showMessageDialog(this, e.getMessage(), "Message",  JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();

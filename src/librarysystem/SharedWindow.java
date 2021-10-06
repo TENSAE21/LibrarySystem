@@ -1,0 +1,92 @@
+package librarysystem;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+
+import business.SystemController;
+import dataaccess.Auth;
+
+/**
+ * 
+ * @author wineikhaing
+ */
+
+public class SharedWindow extends JFrame {
+	private static final long serialVersionUID = 1L;
+	String[] items;
+	String[] links;
+	JList<String> linkList;
+	JPanel cards;
+
+	private static final int maxWidth = 700;
+	private static final int maxLength = 400;
+
+	public SharedWindow() {
+		setSize(maxWidth, maxLength);
+		String[] items = setItems();
+		linkList = new JList<String>(items);				
+		createPanels();	
+		JSplitPane splitPane = new JSplitPane(
+				JSplitPane.HORIZONTAL_SPLIT, linkList, cards);
+		splitPane.setDividerLocation(150);
+		add(splitPane, BorderLayout.CENTER);
+		highlightDashboard();
+	}
+
+	private String[] setItems() {
+		if(SystemController.currentAuth == Auth.ADMIN) {
+			return new String[] {"Dashboard", "Book List", "Member List", "Add New Author", "Add New Book", "Add New Member", "Log Out"};
+		}
+		else if (SystemController.currentAuth == Auth.LIBRARIAN) {
+			return new String[] {"Dashboard", "Book List", "Member List", "Check Out", "Log Out"};
+		}
+		else if (SystemController.currentAuth == Auth.BOTH) {
+			return new String[] {"Dashboard", "Book List", "Member List", "Add New Author", "Add New Book", "Add New Member",  "Check Out", "Log Out"};
+		}
+		return null;
+	}
+
+	/* Organize panels into a CardLayout */
+	public void createPanels() {
+		JPanel pnlDashboard = createDashboardPanel();
+		cards = new JPanel(new CardLayout());
+		cards.add(pnlDashboard, "Dashboard");
+
+		//connect JList elements to CardLayout panels
+		linkList.addListSelectionListener(event -> {
+			String value = linkList.getSelectedValue().toString();
+			if(value.equals("Log Out")) {
+				dispose();
+				LoginWindow.INSTANCE.setVisible(true);
+			}
+			CardLayout cl = (CardLayout) (cards.getLayout());
+			cl.show(cards, value);
+		});
+	}
+
+	private JPanel createDashboardPanel() {
+		JPanel pnlDashboard = new JPanel(); 
+		pnlDashboard.setLayout(new BorderLayout());
+		JLabel lblWelcome = new JLabel("Welcome to our Library System, " + SystemController.currentAuth);
+		pnlDashboard.add(lblWelcome, BorderLayout.NORTH);
+
+		String currDirectory = System.getProperty("user.dir");
+		String pathToImage = currDirectory+"/src/librarysystem/library.jpg";
+
+		ImageIcon image = new ImageIcon(pathToImage);
+		pnlDashboard.add(new JLabel(image), BorderLayout.CENTER);	
+		return pnlDashboard;
+	}
+
+	private void highlightDashboard() {
+		int begn = 0;
+		int end = 0;
+		linkList.setSelectionInterval(begn, end);
+	}
+}
