@@ -74,27 +74,28 @@ public class NewBookWindow extends JFrame implements LibWindow{
 
     public void defineTopPanel() {
         topPanel = new JPanel();
-        JLabel AllIDsLabel = new JLabel("Add New Book");
-        Util.adjustLabelFont(AllIDsLabel, Util.DARK_BLUE, true);
-        topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        topPanel.add(AllIDsLabel);
+        JLabel AddBookLabel = new JLabel("Add New Book");
+        Util.adjustLabelFont(AddBookLabel, Util.DARK_BLUE, true);
+        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        JButton backButton = new JButton("< Back");
+        backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        addBackButtonListener(backButton);
+        topPanel.add(backButton);
+        topPanel.add(AddBookLabel);
     }
 
     public void defineMiddlePanel() {
         middlePanel = new JPanel();
-//        FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 10);
-        BoxLayout bl = new BoxLayout(middlePanel, BoxLayout.PAGE_AXIS);
 
+        BoxLayout bl = new BoxLayout(middlePanel, BoxLayout.PAGE_AXIS);
         middlePanel.setLayout(bl);
 
         titleLabel = new JLabel("Title");
-
-
         isbnLabel = new JLabel("Book ISBN");
         authorLabel = new JLabel("Author Information");
         checkoutLengthLabel = new JLabel("Checkout Length (Days)");
         numberOfCopiesLabel = new JLabel("Number of Copies");
-//        titleLabel = new Label("Title");
 
         NumberFormat format = NumberFormat.getInstance();
         NumberFormatter formatter = new NumberFormatter(format);
@@ -111,12 +112,9 @@ public class NewBookWindow extends JFrame implements LibWindow{
             e.printStackTrace();
         }
 
-
         formatter.setValueClass(Integer.class);
-        formatter.setMinimum(0);
         formatter.setMaximum(100);
         formatter.setAllowsInvalid(false);
-
 
         titleTextField = new JTextField();
         ISBNTextField = new JFormattedTextField(maskFormatter);
@@ -124,9 +122,6 @@ public class NewBookWindow extends JFrame implements LibWindow{
         checkoutLengthTextField = new JFormattedTextField(formatter);
         formatter.setMaximum(100000);
         numberOfCopiesTextField = new JFormattedTextField(formatter);
-
-        submitButton = new JButton("ADD");
-        addButtonListener(submitButton);
 
         addAuthorButton = new JButton("Add another Author");
         addButtonListener(addAuthorButton);
@@ -152,7 +147,7 @@ public class NewBookWindow extends JFrame implements LibWindow{
         middlePanel.add(checkoutLengthTextField);
         middlePanel.add(numberOfCopiesLabel);
         middlePanel.add(numberOfCopiesTextField);
-        middlePanel.add(submitButton);
+
 
     }
 
@@ -180,8 +175,8 @@ public class NewBookWindow extends JFrame implements LibWindow{
             }
 
             ci.addBook(title, isbnText, checkoutLengthText,authorNames, numCopies);
-            //addBook(String Title, String ISBN, int checkoutLen, String[] authorNames,int copies);
-            System.out.printf("Retrieved Values %s/n %s/n %s/n %s/n", title, checkoutLengthText, numCopies, isbnText);
+
+//            System.out.printf("Retrieved Values %s\n %s\n %s\n %s\n", title, checkoutLengthText, numCopies, isbnText);
         });
     }
 
@@ -203,19 +198,25 @@ public class NewBookWindow extends JFrame implements LibWindow{
 
     String checkBookValues()
     {
-
-
-
         return null;
     }
 
+    JPanel getNewBookPanel()
+    {
+        init();
+        pack();
+        setVisible(true);
 
+        return mainPanel;
+    }
     public void defineLowerPanel() {
         lowerPanel = new JPanel();
-        FlowLayout fl = new FlowLayout(FlowLayout.LEFT);
+        FlowLayout fl = new FlowLayout(FlowLayout.CENTER);
         lowerPanel.setLayout(fl);
-        JButton backButton = new JButton("<== Back to Main");
-        addBackButtonListener(backButton);
-        lowerPanel.add(backButton);
+
+        submitButton = new JButton("ADD");
+        addButtonListener(submitButton);
+        lowerPanel.add(submitButton);
+
     }
 }

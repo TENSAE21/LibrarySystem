@@ -27,7 +27,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JMenuBar menuBar;
     JMenu options;
     JMenuItem login, allBookIds, allMemberIds;
-    JMenuItem myTestScreen;
+
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -98,13 +98,10 @@ public class LibrarySystem extends JFrame implements LibWindow {
  	   allMemberIds = new JMenuItem("All Member Ids");
  	   allMemberIds.addActionListener(new AllMemberIdsListener());
 
- 	   myTestScreen = new JMenuItem("My Test Screen");
- 	   myTestScreen.addActionListener(new MyTestScreenListener());
 
  	   options.add(login);
  	   options.add(allBookIds);
  	   options.add(allMemberIds);
- 	   options.add(myTestScreen);
 
     }
     
@@ -172,37 +169,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	
     }
 
-	class MyTestScreenListener implements ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			LibrarySystem.hideAllWindows();
-			NewBookWindow.INSTANCE.init();
-			NewBookWindow.INSTANCE.pack();
-			NewBookWindow.INSTANCE.setVisible(true);
-
-			Util.centerFrameOnDesktop(NewBookWindow.INSTANCE);
-
-//			LibrarySystem.hideAllWindows();
-//			NewBookWindow.INSTANCE.init();
-//
-//			List<String> ids = ci.allMemberIds();
-//			Collections.sort(ids);
-//			StringBuilder sb = new StringBuilder();
-//			for(String s: ids) {
-//				sb.append(s + "\n");
-//			}
-//			System.out.println(sb.toString());
-//			AllMemberIdsWindow.INSTANCE.setData(sb.toString());
-//			AllMemberIdsWindow.INSTANCE.pack();
-//			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
-//			Util.centerFrameOnDesktop(AllMemberIdsWindow.INSTANCE);
-//			AllMemberIdsWindow.INSTANCE.setVisible(true);
-
-
-
-		}
-	}
 
 
 	@Override
