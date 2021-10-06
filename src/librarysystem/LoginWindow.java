@@ -206,6 +206,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 					frame.setTitle("Library System");
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					Main.centerFrameOnDesktop(frame);
+					frame.pack();
 					frame.setVisible(true);
 				} catch (LoginException e) {
 					JOptionPane.showMessageDialog(this, e.getMessage(), "Message",  JOptionPane.ERROR_MESSAGE);

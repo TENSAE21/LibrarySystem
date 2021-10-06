@@ -55,9 +55,11 @@ public class SharedWindow extends JFrame {
 	/* Organize panels into a CardLayout */
 	public void createPanels() {
 		JPanel pnlDashboard = createDashboardPanel();
+		JPanel pnlAddNewAuthor = new AddNewAuthorWindow();
+		
 		cards = new JPanel(new CardLayout());
 		cards.add(pnlDashboard, "Dashboard");
-
+		cards.add(pnlAddNewAuthor, "Add New Author");
 		//connect JList elements to CardLayout panels
 		linkList.addListSelectionListener(event -> {
 			String value = linkList.getSelectedValue().toString();
