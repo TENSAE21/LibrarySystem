@@ -1,0 +1,117 @@
+package librarysystem.UI.members.list;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class ListAllMembersWindow extends JPanel implements ActionListener {
+	private static final long serialVersionUID = 1L;
+    private static JPanel panel = new JPanel();
+    private static JTextField searchField = new JTextField();
+    private static JButton resetButton = new JButton("<");
+    private static JButton searchButton = new JButton("Search");
+    private final String[] filters = { "By name", "By ID"};
+    private JComboBox filterOptions = new JComboBox(filters);
+    private JTableMembersModel tableModel = new JTableMembersModel();
+    private TableRowSorter sorter = new TableRowSorter<JTableMembersModel>(tableModel);
+    private JTable table = new JTable(tableModel);
+    private JScrollPane scrollPane = new JScrollPane(table);
+
+    public ListAllMembersWindow() {
+        setSize(600, 400);
+        setLayout(new BorderLayout());
+
+        /*
+         * HEADER MENU WITH SEARCH OPTIONS
+         */
+        panel.setLayout(new FlowLayout());
+        prepareHeaderComponents();
+        add(panel, BorderLayout.PAGE_START);
+
+        /*
+         * TABLE WITH LIST OF BOOKS
+         */
+        prepareTableComponents();
+        add(scrollPane, BorderLayout.CENTER);
+
+        setVisible(true);
+    }
+
+    private void prepareHeaderComponents() {
+        searchField.setPreferredSize(new Dimension(300, 30));
+        searchButton.setPreferredSize(new Dimension(75, 35));
+        searchButton.addActionListener(this);
+        resetButton.setPreferredSize(new Dimension(50, 30));
+        resetButton.addActionListener(this);
+        filterOptions.setPreferredSize(new Dimension(150, 30));
+        filterOptions.setSelectedIndex(0);
+        panel.add(resetButton);
+        panel.add(searchField);
+        panel.add(filterOptions);
+        panel.add(searchButton);
+    }
+
+    private void prepareTableComponents() {
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+        table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+        table.setFillsViewportHeight(true);
+        table.getColumnModel().getColumn(2).setMaxWidth(35);
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                JTable table = (JTable)evt.getSource();
+                int row = table.getSelectedRow();
+                int column = table.getSelectedColumn();
+                if(column == 2) {
+                    String id = (String)table.getValueAt(row, 0);
+                    System.out.println("Opening edit window for member with id: " + id);
+                }
+            }
+        });
+        table.setRowSorter(sorter);
+        scrollPane.setSize(500,300);
+        scrollPane.setBackground(Color.gray);
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == searchButton) {
+            if(filterOptions.getSelectedIndex() == 0) {
+                RowFilter<JTableMembersModel, Object> rf = null;
+                try {
+                    rf = RowFilter.regexFilter(searchField.getText(),1);
+                } catch (java.util.regex.PatternSyntaxException ex) {
+                    return;
+                }
+                sorter.setRowFilter(rf);
+            }
+            if(filterOptions.getSelectedIndex() == 1) {
+                RowFilter<JTableMembersModel, Object> rf = null;
+                try {
+                    rf = RowFilter.regexFilter(searchField.getText(),0);
+                } catch (java.util.regex.PatternSyntaxException ex) {
+                    return;
+                }
+                sorter.setRowFilter(rf);
+            }
+        }
+
+        if(e.getSource() == resetButton) {
+            RowFilter<JTableMembersModel, Object> rf = null;
+            try {
+                rf = RowFilter.regexFilter("Edit",2);
+            } catch (java.util.regex.PatternSyntaxException ex) {
+                return;
+            }
+            sorter.setRowFilter(rf);
+        }
+    }
+}
+

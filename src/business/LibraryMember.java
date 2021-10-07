@@ -17,6 +17,11 @@ final public class LibraryMember extends Person implements Serializable {
 		this.record = record;
 	}
 	
+	public LibraryMember(String fname, String lname) {
+		super(fname, lname);
+		this.memberId = UUID.randomUUID().toString();
+	}
+	
 	
 	public CheckoutRecord getRecord() {
 		return record;
