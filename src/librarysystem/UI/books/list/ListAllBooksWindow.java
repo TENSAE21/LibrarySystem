@@ -1,4 +1,6 @@
-package librarysystem.UI.members.list;
+package librarysystem.UI.books.list;
+
+import business.LibraryMember;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -8,24 +10,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ListAllMembersWindow extends JPanel implements ActionListener {
+public class ListAllBooksWindow extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JFrame parentFrame;
     private static JPanel panel = new JPanel();
     private static JTextField searchField = new JTextField();
     private static JButton resetButton = new JButton("<");
     private static JButton searchButton = new JButton("Search");
-    private final String[] filters = { "By name", "By ID"};
+    private List<LibraryMember> members = new ArrayList<LibraryMember>();
+    private final String[] filters = { "By name", "By ISBN"};
     private JComboBox filterOptions = new JComboBox(filters);
-    private JTableMembersModel tableModel = new JTableMembersModel();
-    private TableRowSorter sorter = new TableRowSorter<JTableMembersModel>(tableModel);
-    private RowFilter<JTableMembersModel, Object> rf = null;
+    private JTableBookModel tableModel = new JTableBookModel();
+    private TableRowSorter sorter = new TableRowSorter<JTableBookModel>(tableModel);
+    private RowFilter<JTableBookModel, Object> rf = null;
     private JTable table = new JTable(tableModel);
     private JScrollPane scrollPane = new JScrollPane(table);
 
-    public ListAllMembersWindow() {
-        setSize(600, 400);
+    public ListAllBooksWindow() {
         setLayout(new BorderLayout());
 
         /*
@@ -63,7 +67,8 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
         rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
         table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
         table.setFillsViewportHeight(true);
-        table.getColumnModel().getColumn(2).setMaxWidth(35);
+        table.getColumnModel().getColumn(2).setMaxWidth(90);
+        table.getColumnModel().getColumn(2).setMinWidth(90);
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -71,8 +76,8 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
                 int row = table.getSelectedRow();
                 int column = table.getSelectedColumn();
                 if(column == 2) {
-                    String id = (String)table.getValueAt(row, 0);
-                    System.out.println("Opening edit window for member with id: " + id);
+                    String isbn = (String)table.getValueAt(row, 0);
+                    System.out.println("Opening edit window for book with isbn: " + isbn);
                 }
             }
         });
@@ -84,11 +89,11 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
     public void setParentJFrame(JFrame parent) {
 		this.parentFrame = parent;
 	}
-
+    
     void verifyResults() {
     	if(table.getRowCount() == 0) {
-        	JOptionPane.showMessageDialog(parentFrame,"No members found", "Message",  JOptionPane.INFORMATION_MESSAGE);
-        	rf = RowFilter.regexFilter("Edit",2);
+        	JOptionPane.showMessageDialog(parentFrame,"No books found", "Message",  JOptionPane.INFORMATION_MESSAGE);
+        	rf = RowFilter.regexFilter("Add new copy",2);
         	sorter.setRowFilter(rf);
         }
     }
@@ -104,9 +109,11 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
         			ex.printStackTrace();
         			return;
                 }
+                
                 sorter.setRowFilter(rf);
                 verifyResults();
             }
+            
             if(filterOptions.getSelectedIndex() == 1) {
                 try {
                     rf = RowFilter.regexFilter(searchField.getText(),0);
@@ -122,7 +129,7 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
 
         if(e.getSource() == resetButton) {
             try {
-                rf = RowFilter.regexFilter("Edit",2);
+                rf = RowFilter.regexFilter("Add new copy",2);
             } catch (java.util.regex.PatternSyntaxException ex) {
                 return;
             }
@@ -130,4 +137,5 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
         }
     }
 }
+
 
