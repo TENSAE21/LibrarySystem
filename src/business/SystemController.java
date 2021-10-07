@@ -84,4 +84,8 @@ public class SystemController implements ControllerInterface {
 		System.out.println(addressList.size());
 		System.out.println(authorList.size());
 	}
+	
+	public void persistNewLibraryMember(LibraryMember libraryMember) throws LoginException {
+		//SERIALIZE NEW MEMBER INTO THE DATABASE FILE
+	}
 }
