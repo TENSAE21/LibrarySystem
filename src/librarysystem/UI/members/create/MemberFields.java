@@ -22,19 +22,19 @@ abstract class MemberFields {
 
     static boolean validateRequiredFields() {
         if(firstNameTextField.getText().equals("")
-                || lastNameTextField.getText().equals("")
-                || phoneNumberTextField.getText().equals("")
-                || streetTextField.getText().equals("")
-                || cityTextField.getText().equals("")
-                || stateTextField.getText().equals("")
-                || zipcodeTextField.getText().equals("")) {
+                || lastNameTextField.getText().trim().length() == 0
+                || phoneNumberTextField.getText().trim().length() == 0
+                || streetTextField.getText().trim().length() == 0
+                || cityTextField.getText().trim().length() == 0
+                || stateTextField.getText().trim().length() == 0
+                || zipcodeTextField.getText().trim().length() == 0) {
             return false;
         }
         return true;
     }
 
     static boolean validateZipcode() {
-        return zipcodeTextField.getText().length() == 5 ? true : false;
+        return zipcodeTextField.getText().trim().length() == 5 ? true : false;
     }
 
     static HashMap<String, String> getValues() {

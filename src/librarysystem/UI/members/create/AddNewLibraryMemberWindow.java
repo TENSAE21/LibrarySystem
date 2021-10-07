@@ -1,6 +1,7 @@
 package librarysystem.UI.members.create;
 
 import business.LibraryMember;
+import business.LibraryMemberFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -83,6 +84,18 @@ public class AddNewLibraryMemberWindow extends JPanel implements ActionListener 
         }
 
         HashMap<String, String> member = MemberFields.getValues();
+        
+        LibraryMember libraryMember = LibraryMemberFactory.create(
+                member.get("firstName"),
+                member.get("lastName"),
+                member.get("phoneNumber"),
+                member.get("street"),
+                member.get("city"),
+                member.get("state"),
+                member.get("zipcode")
+        );
+
+        // Persist new libraryMember with serialization
     }
 }
 
