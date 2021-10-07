@@ -12,6 +12,7 @@ import javax.swing.JSplitPane;
 import business.SystemController;
 import dataaccess.Auth;
 import librarysystem.UI.members.create.AddNewLibraryMemberWindow;
+import librarysystem.UI.members.list.ListAllMembersWindow;
 
 /**
  * 
@@ -58,11 +59,13 @@ public class SharedWindow extends JFrame {
 		JPanel pnlDashboard = createDashboardPanel();
 		JPanel pnlAddNewAuthor = new AddNewAuthorWindow();
 		JPanel pnlAddNewLibraryMember = new AddNewLibraryMemberWindow();
+		JPanel pnlListAllLibraryMembers = new ListAllMembersWindow();
 		
 		cards = new JPanel(new CardLayout());
 		cards.add(pnlDashboard, "Dashboard");
 		cards.add(pnlAddNewAuthor, "Add New Author");
 		cards.add(pnlAddNewLibraryMember, "Add New Member");
+		cards.add(pnlListAllLibraryMembers, "Member List");
 		//connect JList elements to CardLayout panels
 		linkList.addListSelectionListener(event -> {
 			String value = linkList.getSelectedValue().toString();
