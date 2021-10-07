@@ -2,6 +2,8 @@ package librarysystem.UI.members.create;
 
 import business.LibraryMember;
 import business.LibraryMemberFactory;
+import business.LoginException;
+import business.SystemController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,12 +76,12 @@ public class AddNewLibraryMemberWindow extends JPanel implements ActionListener 
     public void actionPerformed(ActionEvent e) {
 
         if(!MemberFields.validateRequiredFields()) {
-            System.out.println("All fields are required");
+            JOptionPane.showMessageDialog(parentFrame, "All fields are required", "Message",  JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if(!MemberFields.validateZipcode()) {
-            System.out.println("Zipcode is invalid");
+            JOptionPane.showMessageDialog(parentFrame, "Zipcode is invalid", "Message",  JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -96,6 +98,15 @@ public class AddNewLibraryMemberWindow extends JPanel implements ActionListener 
         );
 
         // Persist new libraryMember with serialization
+        try {
+			SystemController systemController = new SystemController();
+			systemController.persistNewLibraryMember(libraryMember);
+			JOptionPane.showMessageDialog(parentFrame,"New library member successfully created", "Message",  JOptionPane.INFORMATION_MESSAGE);
+			MemberFields.clearAllFields();
+		} catch (LoginException ex) {
+			JOptionPane.showMessageDialog(parentFrame, ex.getMessage(), "Message",  JOptionPane.ERROR_MESSAGE);
+			ex.printStackTrace();
+		}
     }
 }
 

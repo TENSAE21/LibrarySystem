@@ -49,5 +49,15 @@ abstract class MemberFields {
 
         return values;
     }
+    
+    static void clearAllFields() {
+    	firstNameTextField.setText("");
+		lastNameTextField.setText("");
+		phoneNumberTextField.setText("");
+		streetTextField.setText("");
+		cityTextField.setText("");
+		stateTextField.setText("");
+		zipcodeTextField.setText("");
+	}
 }
 
