@@ -9,7 +9,7 @@ import dataaccess.DataAccessFacade;
 import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
-	public static Set<Author> authorList = getAuthorSet();
+	public static Set<Author> authorSet = getAuthorSet();
 	public static List<Address> addressList = setAddressList();
   
 	public static Auth currentAuth = null;
@@ -18,9 +18,10 @@ public class SystemController implements ControllerInterface {
     //since an author can have multiple books and thus be added many times we return a Set
 
     List<Book> books = new ArrayList<>();
+    DataAccessFacade da = new DataAccessFacade();
   	books.addAll(da.readBooksMap().values());
     
-    Set authorSet = new LinkedHashSet<>();
+    Set<Author> authorSet = new LinkedHashSet<>();
     books.forEach(new Consumer<Book>() {
 			@Override
 			public void accept(Book book) {
