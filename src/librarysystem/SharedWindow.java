@@ -25,7 +25,8 @@ public class SharedWindow extends JFrame {
 	String[] items;
 	String[] links;
 	JList<String> linkList;
-	JPanel cards;
+	static JPanel cards = new JPanel(new CardLayout());;
+	static CardLayout cl;
 
 	private static final int maxWidth = 700;
 	private static final int maxLength = 400;
@@ -59,13 +60,15 @@ public class SharedWindow extends JFrame {
 	public void createPanels() {
 		JPanel pnlDashboard = createDashboardPanel();
 		JPanel pnlAddNewAuthor = new AddNewAuthorWindow();
-		
-		cards = new JPanel(new CardLayout());
+
 		cards.add(pnlDashboard, "Dashboard");
 		cards.add(pnlAddNewAuthor, "Add New Author");
 		cards.add(new AddNewLibraryMemberWindow(), "Add New Member");
 		cards.add(new ListAllMembersWindow(), "Member List");
 		cards.add(new ListAllBooksWindow(), "Book List");
+		cards.add(new CheckOutSearchWindow(), "Check Out");
+		cards.add(new CheckOutContinueWindow(), "Check Out Continue");
+		cards.add(new CheckOutListWindow(), "Check Out List");
 		//connect JList elements to CardLayout panels
 		linkList.addListSelectionListener(event -> {
 			String value = linkList.getSelectedValue().toString();
@@ -73,7 +76,7 @@ public class SharedWindow extends JFrame {
 				dispose();
 				LoginWindow.INSTANCE.setVisible(true);
 			}
-			CardLayout cl = (CardLayout) (cards.getLayout());
+			cl = (CardLayout) (cards.getLayout());
 			cl.show(cards, value);
 		});
 	}
