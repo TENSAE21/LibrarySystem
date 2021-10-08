@@ -3,6 +3,7 @@ package librarysystem;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,11 +22,12 @@ import business.SystemController;
 
 public class LibrarySystem extends JFrame implements LibWindow {
 	ControllerInterface ci = new SystemController();
-	public final static LibrarySystem INSTANCE =new LibrarySystem();
+	public final static LibrarySystem INSTANCE = new LibrarySystem();
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem login, allBookIds, allMemberIds; 
+    JMenuItem login, allBookIds, allMemberIds;
+
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -33,7 +35,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	LibrarySystem.INSTANCE,
 		LoginWindow.INSTANCE,
 		AllMemberIdsWindow.INSTANCE,	
-		AllBookIdsWindow.INSTANCE
+		AllBookIdsWindow.INSTANCE,
+			NewBookWindow.INSTANCE
+
 	};
     	
 	public static void hideAllWindows() {
@@ -43,7 +47,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			
 		}
 	}
-    
     
     private LibrarySystem() {}
     
@@ -66,7 +69,12 @@ public class LibrarySystem extends JFrame implements LibWindow {
     
     private void setPathToImage() {
     	String currDirectory = System.getProperty("user.dir");
-    	pathToImage = currDirectory+"\\src\\librarysystem\\library.jpg";
+//    	pathToImage = currDirectory+"/src/librarysystem/library.jpg";
+    	//a path that works for both Linux and Windows systems
+		String betterPathToImage =  currDirectory+ File.separator +"src" + File.separator + "librarysystem" +  File.separator  + "library.jpg";
+		pathToImage = betterPathToImage;
+
+		System.out.println(betterPathToImage);
     }
     
     private void insertSplashImage() {
@@ -89,9 +97,12 @@ public class LibrarySystem extends JFrame implements LibWindow {
  	   allBookIds.addActionListener(new AllBookIdsListener());
  	   allMemberIds = new JMenuItem("All Member Ids");
  	   allMemberIds.addActionListener(new AllMemberIdsListener());
+
+
  	   options.add(login);
  	   options.add(allBookIds);
  	   options.add(allMemberIds);
+
     }
     
     class LoginListener implements ActionListener {
@@ -127,7 +138,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			AllBookIdsWindow.INSTANCE.setVisible(true);
 			
 		}
-    	
     }
     
     class AllMemberIdsListener implements ActionListener {
@@ -138,8 +148,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			AllMemberIdsWindow.INSTANCE.init();
 			AllMemberIdsWindow.INSTANCE.pack();
 			AllMemberIdsWindow.INSTANCE.setVisible(true);
-			
-			
+
 			LibrarySystem.hideAllWindows();
 			AllBookIdsWindow.INSTANCE.init();
 			
@@ -156,10 +165,12 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			Util.centerFrameOnDesktop(AllMemberIdsWindow.INSTANCE);
 			AllMemberIdsWindow.INSTANCE.setVisible(true);
 			
-			
 		}
     	
     }
+
+
+
 
 	@Override
 	public boolean isInitialized() {

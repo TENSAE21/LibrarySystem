@@ -1,11 +1,7 @@
 package business;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  *
@@ -78,7 +74,13 @@ final public class Book implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "isbn: " + isbn + ", maxLength: " + maxCheckoutLength + ", available: " + isAvailable();
+		StringJoiner sj = new StringJoiner(", ");
+		for (Author a: authors) {
+			String fullName = a.getFirstName() +" " +a.getLastName();
+			sj.add(fullName);
+
+		}
+		return "isbn: " + isbn + ", maxLength: " + maxCheckoutLength + ", available: " + isAvailable() + ", copies:" + copies.length + ", authors- " + sj;
 	}
 	
 	public int getNumCopies() {
@@ -119,8 +121,5 @@ final public class Book implements Serializable {
 		return maxCheckoutLength;
 	}
 
-	
-	
-	
 	
 }

@@ -1,8 +1,5 @@
 package dataaccess;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,8 +18,9 @@ public class DataAccessFacade implements DataAccess {
 		BOOKS, MEMBERS, USERS;
 	}
 	
-	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
-			+ "/src/dataaccess/storage";
+	public static final String OUTPUT_DIR = System.getProperty("user.dir")
+			+ File.separator + "src" + File.separator + "dataaccess"+ File.separator+"storage";
+
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 	
 	//implement: other save operations
@@ -32,7 +30,15 @@ public class DataAccessFacade implements DataAccess {
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);	
 	}
-	
+
+	@Override
+	public void saveNewBook(Book book) {
+		HashMap<String, Book> bookMap = readBooksMap();
+		String isbn = book.getIsbn();
+		bookMap.put(isbn, book);
+		saveToStorage(StorageType.BOOKS, bookMap);
+	}
+
 	@SuppressWarnings("unchecked")
 	public  HashMap<String,Book> readBooksMap() {
 		//Returns a Map with name/value pairs being
