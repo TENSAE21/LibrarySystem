@@ -9,10 +9,42 @@ import dataaccess.DataAccessFacade;
 import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
+	public static Set<Author> authorList = getAuthorSet();
+	public static List<Address> addressList = setAddressList();
+  
 	public static Auth currentAuth = null;
+  
+  public static Set<Author> getAuthorSet() { 
+    //since an author can have multiple books and thus be added many times we return a Set
 
-	private Set<Author> authorSet;
+    List<Book> books = new ArrayList<>();
+  	books.addAll(da.readBooksMap().values());
+    
+    Set authorSet = new LinkedHashSet<>();
+    books.forEach(new Consumer<Book>() {
+			@Override
+			public void accept(Book book) {
+				authorSet.addAll(book.getAuthors());
+			}
+		});
+
+    return authorSet;
+	}
+
 	
+	public static List<Address> setAddressList() { 
+		List<Address> addresses = new ArrayList<Address>();
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> retval = da.readBooksMap();
+
+		for(Book b : retval.values()) {
+			for(Author a : b.getAuthors()) {
+				addresses.add(a.getAddress());
+			}
+		}
+		return addresses;
+	}
+
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
@@ -24,7 +56,7 @@ public class SystemController implements ControllerInterface {
 			throw new LoginException("Password incorrect");
 		}
 		currentAuth = map.get(id).getAuthorization();
-		
+
 	}
 	@Override
 	public List<String> allMemberIds() {
@@ -33,7 +65,7 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readMemberMap().keySet());
 		return retval;
 	}
-	
+
 	@Override
 	public List<String> allBookIds() {
 		DataAccess da = new DataAccessFacade();
@@ -42,19 +74,9 @@ public class SystemController implements ControllerInterface {
 		return retval;
 	}
 
+
 	@Override
 	public List<String> allAuthorNames() {
-		DataAccess da = new DataAccessFacade();
-		List<Book> books = new ArrayList<>();
-		books.addAll(da.readBooksMap().values());
-		authorSet = new LinkedHashSet<>();
-		books.forEach(new Consumer<Book>() {
-			@Override
-			public void accept(Book book) {
-				authorSet.addAll(book.getAuthors());
-			}
-		});
-
 		List<String> authorNames = new ArrayList<>();
 		authorSet.forEach(author -> authorNames.add(author.getFirstName() + " " + author.getLastName()));
 
@@ -79,5 +101,24 @@ public class SystemController implements ControllerInterface {
 		System.out.println("Added Book as " + newBook);
 	}
 
+
+	public void AddNewMember(String fName, String lName,
+			String phNo, String street, String city, 
+			String state, String zip, String bio) throws LoginException {
+		System.out.println(addressList.size());
+		System.out.println(authorSet.size());
+		
+		Address address = new Address(street, city, state, zip);
+		addressList.add(address); //to use from other function
+		Author author = new Author(fName, lName, phNo, address, bio);
+		authorSet.add(author); //to use in adding book
+		
+		System.out.println(addressList.size());
+		System.out.println(authorSet.size());
+	}
+	
+	public void persistNewLibraryMember(LibraryMember libraryMember) throws LoginException {
+		//SERIALIZE NEW MEMBER INTO THE DATABASE FILE
+	}
 
 }
