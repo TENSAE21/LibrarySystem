@@ -1,5 +1,7 @@
 package librarysystem.UI.books.list;
 
+import business.Book;
+
 import business.LibraryMember;
 import business.SystemController;
 import dataaccess.Auth;
@@ -26,7 +28,7 @@ public class ListAllBooksWindow extends JPanel implements ActionListener {
     private List<LibraryMember> members = new ArrayList<LibraryMember>();
     private final String[] filters = { "By name", "By ISBN"};
     private JComboBox filterOptions = new JComboBox(filters);
-    private JTableBookModel tableModel = new JTableBookModel();
+    private static JTableBookModel tableModel = new JTableBookModel();
     private TableRowSorter sorter = new TableRowSorter<JTableBookModel>(tableModel);
     private RowFilter<JTableBookModel, Object> rf = null;
     private JTable table = new JTable(tableModel);
@@ -73,7 +75,8 @@ public class ListAllBooksWindow extends JPanel implements ActionListener {
         table.getColumnModel().getColumn(2).setMaxWidth(90);
         table.getColumnModel().getColumn(2).setMinWidth(90);
         table.addMouseListener(new MouseAdapter() {
-            @Override
+            @SuppressWarnings("static-access")
+			@Override
             public void mouseClicked(MouseEvent evt) {
                 JTable table = (JTable)evt.getSource();
                 int row = table.getSelectedRow();
@@ -142,6 +145,10 @@ public class ListAllBooksWindow extends JPanel implements ActionListener {
             }
             sorter.setRowFilter(rf);
         }
+    }
+    
+    public static void notifyTableChanged(Book book) {
+    	tableModel.addRow(book);
     }
 }
 

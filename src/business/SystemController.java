@@ -86,7 +86,7 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public void addBook(String Title, String ISBN, int checkoutLen, List<String> authorNames, int copies) {
+	public Book addBook(String Title, String ISBN, int checkoutLen, List<String> authorNames, int copies) {
 
 		List<Author> bookAuthors = new ArrayList<>();
 		for (String name: authorNames) {
@@ -98,9 +98,15 @@ public class SystemController implements ControllerInterface {
 		Book newBook = new Book(ISBN, Title, checkoutLen, bookAuthors);
 		for (int i=1; i<copies; i++ ) newBook.addCopy();
 
-		DataAccessFacade da = new DataAccessFacade();
-		da.saveNewBook(newBook);
-		System.out.println("Added Book as " + newBook);
+		try {
+			DataAccessFacade da = new DataAccessFacade();
+			da.saveNewBook(newBook);
+			System.out.println("Added Book as " + newBook);
+			return newBook;
+		}catch (Exception e) {
+			System.out.println("ERROR WHILE TRYING TO PERSIST NEW BOOK: " + e.getMessage());
+			return null;
+		}
 	}
 
 
