@@ -28,8 +28,8 @@ public class SharedWindow extends JFrame {
 	static JPanel cards = new JPanel(new CardLayout());;
 	static CardLayout cl;
 
-	private static final int maxWidth = 700;
-	private static final int maxLength = 400;
+	public static final int maxWidth = 700;
+	public static final int maxLength = 400;
 
 	public SharedWindow() {
 		setSize(maxWidth, maxLength);
