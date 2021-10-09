@@ -57,4 +57,9 @@ class JTableBookModel extends AbstractTableModel {
 	public Class getColumnClass(int column) {
         return getValueAt(0, column).getClass();
     }
+    
+    public void addRow(Book book) {
+    	books.add(book);
+    	fireTableDataChanged();
+    }
 }

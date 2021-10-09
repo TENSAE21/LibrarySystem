@@ -1,8 +1,11 @@
 package librarysystem;
 
 import business.Author;
+import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
+import librarysystem.UI.books.list.ListAllBooksWindow;
+import librarysystem.UI.members.list.ListAllMembersWindow;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -162,7 +165,8 @@ public class NewBookWindow extends JPanel implements ActionListener {
                 System.out.println(s);
             }
 
-            ci.addBook(title, isbnText, checkoutLengthText,authorNames, numCopies);
+            Book persistedBook = ci.addBook(title, isbnText, checkoutLengthText,authorNames, numCopies);
+            ListAllBooksWindow.notifyTableChanged(persistedBook);
 
 //            System.out.printf("Retrieved Values %s\n %s\n %s\n %s\n", title, checkoutLengthText, numCopies, isbnText);
         });
