@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import business.Address;
-import business.Author;
-import business.Book;
-import business.LibraryMember;
+import business.*;
 
 /**
  * This class loads data into the data repository and also
@@ -48,15 +45,15 @@ public class TestData {
 	
 	//create library members
 	public void libraryMemberData() {
-		LibraryMember libraryMember = new LibraryMember("1001", "Andy", "Rogers", "641-223-2211", addresses.get(4));
+		LibraryMember libraryMember = new LibraryMember( "Andy", "Rogers", "641-223-2211", addresses.get(4), new CheckoutRecord());
 		members.add(libraryMember);
-		libraryMember = new LibraryMember("1002", "Drew", "Stevens", "702-998-2414", addresses.get(5));
-		members.add(libraryMember);
-		
-		libraryMember = new LibraryMember("1003", "Sarah", "Eagleton", "451-234-8811", addresses.get(6));
+		libraryMember = new LibraryMember("Drew", "Stevens", "702-998-2414", addresses.get(5), new CheckoutRecord());
 		members.add(libraryMember);
 		
-		libraryMember = new LibraryMember("1004", "Ricardo", "Montalbahn", "641-472-2871", addresses.get(7));
+		libraryMember = new LibraryMember( "Sarah", "Eagleton", "451-234-8811", addresses.get(6), new CheckoutRecord());
+		members.add(libraryMember);
+		
+		libraryMember = new LibraryMember("Ricardo", "Montalbahn", "641-472-2871", addresses.get(7), new CheckoutRecord());
 		members.add(libraryMember);
 		
 		DataAccessFacade.loadMemberMap(members);	

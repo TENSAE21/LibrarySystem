@@ -64,6 +64,7 @@ public class SharedWindow extends JFrame {
 		cards.add(pnlDashboard, "Dashboard");
 		cards.add(pnlAddNewAuthor, "Add New Author");
 		cards.add(new AddNewLibraryMemberWindow(), "Add New Member");
+ 		cards.add(new NewBookWindow(), "Add New Book");
 		cards.add(new ListAllMembersWindow(), "Member List");
 		cards.add(new ListAllBooksWindow(), "Book List");
 		//connect JList elements to CardLayout panels
