@@ -1,19 +1,23 @@
 package librarysystem.UI.members.list;
 
 import javax.swing.*;
+
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import business.LibraryMember;
+import business.SystemController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import dataaccess.Auth;
 
 public class ListAllMembersWindow extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
+	private static SystemController controller = new SystemController();
 	private JFrame parentFrame;
     private static JPanel panel = new JPanel();
     private static JTextField searchField = new JTextField();
@@ -68,14 +72,25 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
         table.setFillsViewportHeight(true);
         table.getColumnModel().getColumn(2).setMaxWidth(35);
         table.addMouseListener(new MouseAdapter() {
-            @Override
+            @SuppressWarnings("static-access")
+			@Override
             public void mouseClicked(MouseEvent evt) {
                 JTable table = (JTable)evt.getSource();
                 int row = table.getSelectedRow();
                 int column = table.getSelectedColumn();
                 if(column == 2) {
+                	if (controller.currentAuth == Auth.LIBRARIAN) {
+                		JOptionPane.showMessageDialog(parentFrame,"You do not have access to edit a member", "Message",  JOptionPane.INFORMATION_MESSAGE);
+                		return;
+                	}
                     String id = (String)table.getValueAt(row, 0);
                     System.out.println("Opening edit window for member with id: " + id);
+                }
+                if(column != 2) {
+                	String id = (String)table.getValueAt(row, 0);
+                    System.out.println("Showing checkout record for member with id: " + id);
+                    LibraryMember lm = tableModel.getMemberById(id);
+                    System.out.println(lm.getRecord());
                 }
             }
         });
