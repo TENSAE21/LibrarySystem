@@ -4,6 +4,7 @@ import business.LibraryMember;
 import business.LibraryMemberFactory;
 import business.LoginException;
 import business.SystemController;
+import librarysystem.UI.members.list.ListAllMembersWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,23 +87,22 @@ public class AddNewLibraryMemberWindow extends JPanel implements ActionListener 
         }
 
         HashMap<String, String> member = MemberFields.getValues();
-        
-        LibraryMember libraryMember = LibraryMemberFactory.create(
-                member.get("firstName"),
-                member.get("lastName"),
-                member.get("phoneNumber"),
-                member.get("street"),
-                member.get("city"),
-                member.get("state"),
-                member.get("zipcode")
-        );
 
         // Persist new libraryMember with serialization
         try {
 			SystemController systemController = new SystemController();
-			systemController.persistNewLibraryMember(libraryMember);
+			LibraryMember persistedMember = systemController.persistNewLibraryMember(
+			member.get("firstName"),
+	                member.get("lastName"),
+	                member.get("phoneNumber"),
+	                member.get("street"),
+	                member.get("city"),
+	                member.get("state"),
+	                member.get("zipcode")
+				);
 			JOptionPane.showMessageDialog(parentFrame,"New library member successfully created", "Message",  JOptionPane.INFORMATION_MESSAGE);
 			MemberFields.clearAllFields();
+			ListAllMembersWindow.notifyTableChanged(persistedMember);
 		} catch (LoginException ex) {
 			JOptionPane.showMessageDialog(parentFrame, ex.getMessage(), "Message",  JOptionPane.ERROR_MESSAGE);
 			ex.printStackTrace();

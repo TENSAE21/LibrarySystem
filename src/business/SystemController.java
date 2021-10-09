@@ -9,6 +9,7 @@ import dataaccess.DataAccessFacade;
 import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
+	private DataAccessFacade da = new DataAccessFacade();
 	public static Set<Author> authorSet = getAuthorSet();
 	public static List<Address> addressList = setAddressList();
   
@@ -118,8 +119,32 @@ public class SystemController implements ControllerInterface {
 		System.out.println(authorSet.size());
 	}
 	
-	public void persistNewLibraryMember(LibraryMember libraryMember) throws LoginException {
-		//SERIALIZE NEW MEMBER INTO THE DATABASE FILE
+	public LibraryMember persistNewLibraryMember(String fname, String lname, String phone, String street, String city, String state, String zipcode) throws LoginException {
+		 LibraryMember libraryMember = LibraryMemberFactory.create(
+	                fname,
+	                lname,
+	                phone,
+	                street,
+	                city,
+	                state,
+	                zipcode
+	        );
+		 try {
+			 da.saveNewMember(libraryMember);
+			 System.out.println("New member successfully created");
+			 return libraryMember;
+		 }catch (Exception e) {
+			System.out.println("ERROR WHILE TRYING TO CREATE NEW MEMBER: " + e.getMessage());
+			return null;
+		}
+	}
+	
+	public HashMap<String, LibraryMember> getLibraryMembers() {
+		return da.readMemberMap();
+	}
+	
+	public HashMap<String, Book> getBooks() {
+		return da.readBooksMap();
 	}
 
 }
