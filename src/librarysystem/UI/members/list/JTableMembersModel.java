@@ -53,5 +53,10 @@ class JTableMembersModel extends AbstractTableModel {
 	public Class getColumnClass(int column) {
         return getValueAt(0, column).getClass();
     }
+    
+    public void addRow(LibraryMember member) {
+    	members.add(member);
+    	fireTableDataChanged();
+    }
 
 }

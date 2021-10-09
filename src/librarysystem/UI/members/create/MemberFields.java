@@ -39,7 +39,7 @@ abstract class MemberFields {
 
     static HashMap<String, String> getValues() {
         HashMap<String, String> values = new HashMap<>();
-        values.put("firstname", firstNameTextField.getText());
+        values.put("firstName", firstNameTextField.getText());
         values.put("lastName", lastNameTextField.getText());
         values.put("phoneNumber", phoneNumberTextField.getText());
         values.put("street", streetTextField.getText());

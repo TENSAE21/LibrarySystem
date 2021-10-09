@@ -1,9 +1,11 @@
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CheckoutEntry {
-    private BookCopy book;
+public class CheckoutEntry implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private BookCopy book;
     private LocalDate checkoutDate;
     private LocalDate dueDate;
 

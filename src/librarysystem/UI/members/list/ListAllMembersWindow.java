@@ -3,6 +3,9 @@ package librarysystem.UI.members.list;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
+
+import business.LibraryMember;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +21,7 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
     private static JButton searchButton = new JButton("Search");
     private final String[] filters = { "By name", "By ID"};
     private JComboBox filterOptions = new JComboBox(filters);
-    private JTableMembersModel tableModel = new JTableMembersModel();
+    private static JTableMembersModel tableModel = new JTableMembersModel();
     private TableRowSorter sorter = new TableRowSorter<JTableMembersModel>(tableModel);
     private RowFilter<JTableMembersModel, Object> rf = null;
     private JTable table = new JTable(tableModel);
@@ -128,6 +131,10 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
             }
             sorter.setRowFilter(rf);
         }
+    }
+    
+    public static void notifyTableChanged(LibraryMember member) {
+    	tableModel.addRow(member);
     }
 }
 
