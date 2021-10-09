@@ -26,6 +26,10 @@ public class CheckOutSearchWindow extends JPanel{
 
 	private JFrame parentFrame;
 
+	//to use from next forms
+	public static LibraryMember resultMember = null;
+	static BookCopy nextAvailableCopy = null;
+
 	public CheckOutSearchWindow() {
 		setLayout(new BorderLayout());
 		add(new JLabel("Checking out"), BorderLayout.NORTH);
@@ -71,18 +75,18 @@ public class CheckOutSearchWindow extends JPanel{
 			else
 			{
 				SystemController ctrl = new SystemController();
-				LibraryMember resultMember = ctrl.findMemberByID(memberId);
-				BookCopy resultBookCopy = ctrl.findBookByISBN(isbn);
-				if(resultMember == null || resultBookCopy == null)
+				resultMember = ctrl.findMemberByID(memberId);
+				nextAvailableCopy = ctrl.findBookByISBN(isbn);
+				if(resultMember == null || nextAvailableCopy == null)
 					JOptionPane.showMessageDialog(parentFrame, "Wrong Member ID or Not Available Book", "Message",  JOptionPane.ERROR_MESSAGE);
 				else {
 					System.out.println("we will go next");
-					if(resultBookCopy != null) {
-						int length = resultBookCopy.getBook().getMaxCheckoutLength();
+					if(nextAvailableCopy != null) {
+						int length = nextAvailableCopy.getBook().getMaxCheckoutLength();
 						LocalDate today = LocalDate.now();
 						LocalDate dueDate = today.plusDays(length);
-						CheckOutContinueWindow.lblISBN.setText(resultBookCopy.getBook().getIsbn());
-						CheckOutContinueWindow.lblTitle.setText(resultBookCopy.getBook().getTitle());
+						CheckOutContinueWindow.lblISBN.setText(nextAvailableCopy.getBook().getIsbn());
+						CheckOutContinueWindow.lblTitle.setText(nextAvailableCopy.getBook().getTitle());
 						CheckOutContinueWindow.lblDueDate.setText(dueDate.toString());
 						SharedWindow.cl.show(SharedWindow.cards, "Check Out Continue");
 						//System.out.println(SharedWindow.libraryMemberToCheckOut + "___"+ SharedWindow.bookCopyToCheckOut);

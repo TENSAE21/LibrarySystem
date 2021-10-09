@@ -9,7 +9,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import business.BookCopy;
+import business.LibraryMember;
+import business.SystemController;
 
 public class CheckOutContinueWindow extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -64,8 +69,19 @@ public class CheckOutContinueWindow extends JPanel{
 	class ContinueButtonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Gonna continue");	
-			SharedWindow.cl.show(SharedWindow.cards, "Check Out List");
+			//saving check out
+			LibraryMember member = CheckOutSearchWindow.resultMember;
+			BookCopy copy = CheckOutSearchWindow.nextAvailableCopy;
+			SystemController ctrl = new SystemController();
+			if(ctrl.saveCheckOut(member, copy)) {
+				System.out.println("Checking Out Process succeed");
+				CheckOutListWindow.lblMemberName.setText(member.getFirstName() + " " + member.getLastName());
+				CheckOutListWindow.lblMemberID.setText(member.getMemberId());
+				SharedWindow.cl.show(SharedWindow.cards, "Check Out List");
+			}
+			else
+				JOptionPane.showMessageDialog(parentFrame, "Checking Out Process failed", "Message",  JOptionPane.ERROR_MESSAGE);
+			
 		}
 	}
 }

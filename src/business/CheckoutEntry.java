@@ -19,6 +19,16 @@ public class CheckoutEntry implements Serializable{
 	public String toString() {
 		return "CheckoutEntry [book=" + book + ", checkoutDate=" + checkoutDate + ", dueDate=" + dueDate + "]";
 	}
-    
-    
+
+	public BookCopy getBookCopy() {
+		return book;
+	}
+
+	public LocalDate getCheckoutDate() {
+		return checkoutDate;
+	}
+
+	public LocalDate getDueDate() {
+		return dueDate;
+	}
 }
