@@ -21,7 +21,7 @@ public class SystemController implements ControllerInterface {
     DataAccessFacade da = new DataAccessFacade();
   	books.addAll(da.readBooksMap().values());
     
-    Set authorSet = new LinkedHashSet<>();
+    Set<Author> authorSet = new LinkedHashSet<>();
     books.forEach(new Consumer<Book>() {
 			@Override
 			public void accept(Book book) {

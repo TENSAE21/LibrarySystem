@@ -40,16 +40,13 @@ public class AddNewAuthorWindow extends JPanel{
 		JLabel lblTitle = new JLabel("Adding New Author");
 		add(lblTitle, BorderLayout.NORTH);
 
-		JPanel pnlNorth = new JPanel(); 
-		pnlNorth.setLayout(new BorderLayout());  
-
 		JPanel pnlAdd = new JPanel(); 
 		pnlAdd.setLayout(new GridBagLayout());  
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridwidth = 1;
-		//left most
-		c.gridx=0;
+		//left 
+		c.gridx=1;
 		c.gridy=0;
 		pnlAdd.add(new JLabel("First Name"), c);
 		c.gridy=1;
@@ -65,9 +62,13 @@ public class AddNewAuthorWindow extends JPanel{
 		c.gridy=5;
 		pnlAdd.add(txtState, c);
 
-
-		//middle 
-		c.gridx=1;
+		c.gridy=6;
+		pnlAdd.add(new JLabel("Phone Number"), c);
+		c.gridy=7;
+		pnlAdd.add(txtPhoneNumber, c);
+		
+		//right 
+		c.gridx=2;
 		c.gridy=0;
 		pnlAdd.add(new JLabel("Last Name"), c);
 		c.gridy=1;
@@ -82,30 +83,22 @@ public class AddNewAuthorWindow extends JPanel{
 		pnlAdd.add(new JLabel("Zip Code"), c);
 		c.gridy=5;
 		pnlAdd.add(txtZipCode, c);
-
-		//right most 
-		c.gridx=2;
-		c.gridy=0;
-		pnlAdd.add(new JLabel("Phone Number"), c);
-		c.gridy=1;
-		pnlAdd.add(txtPhoneNumber, c);
-
-		c.gridy=2;
+		
+		c.gridy=6;
 		pnlAdd.add(new JLabel("Bio"), c);
-		c.gridy=3;
-		c.weightx = 3;
+		c.gridy=7;
 		pnlAdd.add(txtBio, c);
 		txtBio.setRows(3);
 		txtBio.setColumns(15);
 
-		c.gridx=1;
-		c.gridy=6;
+		c.gridx=2;
+		c.gridy=10;
 		JButton btnAdd = new JButton("Add Author");
 		btnAdd.addActionListener(new AddAuthorButtonListener());
 		pnlAdd.add(btnAdd, c);
 
-		pnlNorth.add(pnlAdd, BorderLayout.NORTH);
-		add(pnlNorth, BorderLayout.CENTER);
+		//pnlNorth.add(pnlAdd, BorderLayout.NORTH);
+		add(pnlAdd, BorderLayout.CENTER);
 	}
 
 	public void setParentJFrame(JFrame parent) {

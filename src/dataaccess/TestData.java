@@ -3,8 +3,8 @@ package dataaccess;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import business.*;
+
 
 /**
  * This class loads data into the data repository and also
@@ -57,6 +57,7 @@ public class TestData {
 		members.add(libraryMember);
 
 		DataAccessFacade.loadMemberMap(members);
+
 	}
 	
 	///////////// DATA //////////////
