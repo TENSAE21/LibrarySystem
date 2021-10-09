@@ -21,6 +21,12 @@ public class CheckoutRecord implements Serializable{
 	public String toString() {
 		return "CheckoutRecord [libraryMember=" + libraryMember + ", entries=" + entries + "]";
 	}
-    
-    
+
+	public LibraryMember getLibraryMember() {
+		return libraryMember;
+	}
+
+	public List<CheckoutEntry> getEntries() {
+		return entries;
+	}
 }

@@ -9,16 +9,24 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import business.BookCopy;
+import business.LibraryMember;
+import business.SystemController;
 
 public class CheckOutContinueWindow extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private JFrame parentFrame; //will need when we want to alert message
 
+	static JLabel lblISBN = new JLabel();
+	static JLabel lblTitle = new JLabel();
+	static JLabel lblDueDate = new JLabel();
+
 	public CheckOutContinueWindow() {
 		setLayout(new BorderLayout());
-		JLabel lblTitle = new JLabel("Checking out continuing ...");
-		add(lblTitle, BorderLayout.NORTH);
+		add(new JLabel("Checking out continuing ..."), BorderLayout.NORTH);
 
 		JPanel pnlAdd = new JPanel(); 
 		pnlAdd.setLayout(new GridBagLayout());  
@@ -39,12 +47,11 @@ public class CheckOutContinueWindow extends JPanel{
 		//right 
 		c.gridx=1;
 		c.gridy=1;
-		pnlAdd.add(new JLabel("Testing isbn"), c);
-
+		pnlAdd.add(lblISBN, c);
 		c.gridy=2;
-		pnlAdd.add(new JLabel("Testing title"), c);
+		pnlAdd.add(lblTitle, c);
 		c.gridy=3;
-		pnlAdd.add(new JLabel("Testing due date"), c);
+		pnlAdd.add(lblDueDate, c);
 
 		c.gridx=1;
 		c.gridy=4;
@@ -62,8 +69,19 @@ public class CheckOutContinueWindow extends JPanel{
 	class ContinueButtonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Gonna continue");	
-			SharedWindow.cl.show(SharedWindow.cards, "Check Out List");
+			//saving check out
+			LibraryMember member = CheckOutSearchWindow.resultMember;
+			BookCopy copy = CheckOutSearchWindow.nextAvailableCopy;
+			SystemController ctrl = new SystemController();
+			if(ctrl.saveCheckOut(member, copy)) {
+				System.out.println("Checking Out Process succeed");
+				CheckOutListWindow.lblMemberName.setText(member.getFirstName() + " " + member.getLastName());
+				CheckOutListWindow.lblMemberID.setText(member.getMemberId());
+				SharedWindow.cl.show(SharedWindow.cards, "Check Out List");
+			}
+			else
+				JOptionPane.showMessageDialog(parentFrame, "Checking Out Process failed", "Message",  JOptionPane.ERROR_MESSAGE);
+			
 		}
 	}
 }

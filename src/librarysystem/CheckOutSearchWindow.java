@@ -5,12 +5,18 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import business.BookCopy;
+import business.LibraryMember;
+import business.SystemController;
+
 import javax.swing.JOptionPane;
 
 public class CheckOutSearchWindow extends JPanel{
@@ -20,10 +26,13 @@ public class CheckOutSearchWindow extends JPanel{
 
 	private JFrame parentFrame;
 
+	//to use from next forms
+	public static LibraryMember resultMember = null;
+	static BookCopy nextAvailableCopy = null;
+
 	public CheckOutSearchWindow() {
 		setLayout(new BorderLayout());
-		JLabel lblTitle = new JLabel("Checking out");
-		add(lblTitle, BorderLayout.NORTH);
+		add(new JLabel("Checking out"), BorderLayout.NORTH);
 
 		JPanel pnlAdd = new JPanel(); 
 		pnlAdd.setLayout(new GridBagLayout());  
@@ -65,8 +74,24 @@ public class CheckOutSearchWindow extends JPanel{
 				JOptionPane.showMessageDialog(parentFrame, "Member ID and ISBN should not be empty", "Message",  JOptionPane.WARNING_MESSAGE);
 			else
 			{
-				System.out.println("Gonna search");
-				SharedWindow.cl.show(SharedWindow.cards, "Check Out Continue");
+				SystemController ctrl = new SystemController();
+				resultMember = ctrl.findMemberByID(memberId);
+				nextAvailableCopy = ctrl.findBookByISBN(isbn);
+				if(resultMember == null || nextAvailableCopy == null)
+					JOptionPane.showMessageDialog(parentFrame, "Wrong Member ID or Not Available Book", "Message",  JOptionPane.ERROR_MESSAGE);
+				else {
+					System.out.println("we will go next");
+					if(nextAvailableCopy != null) {
+						int length = nextAvailableCopy.getBook().getMaxCheckoutLength();
+						LocalDate today = LocalDate.now();
+						LocalDate dueDate = today.plusDays(length);
+						CheckOutContinueWindow.lblISBN.setText(nextAvailableCopy.getBook().getIsbn());
+						CheckOutContinueWindow.lblTitle.setText(nextAvailableCopy.getBook().getTitle());
+						CheckOutContinueWindow.lblDueDate.setText(dueDate.toString());
+						SharedWindow.cl.show(SharedWindow.cards, "Check Out Continue");
+						//System.out.println(SharedWindow.libraryMemberToCheckOut + "___"+ SharedWindow.bookCopyToCheckOut);
+					}
+				}
 			}
 		}
 	}
