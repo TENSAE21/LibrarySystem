@@ -15,10 +15,13 @@ public class CheckOutContinueWindow extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private JFrame parentFrame; //will need when we want to alert message
 
+	static JLabel lblISBN = new JLabel();
+	static JLabel lblTitle = new JLabel();
+	static JLabel lblDueDate = new JLabel();
+
 	public CheckOutContinueWindow() {
 		setLayout(new BorderLayout());
-		JLabel lblTitle = new JLabel("Checking out continuing ...");
-		add(lblTitle, BorderLayout.NORTH);
+		add(new JLabel("Checking out continuing ..."), BorderLayout.NORTH);
 
 		JPanel pnlAdd = new JPanel(); 
 		pnlAdd.setLayout(new GridBagLayout());  
@@ -39,12 +42,11 @@ public class CheckOutContinueWindow extends JPanel{
 		//right 
 		c.gridx=1;
 		c.gridy=1;
-		pnlAdd.add(new JLabel("Testing isbn"), c);
-
+		pnlAdd.add(lblISBN, c);
 		c.gridy=2;
-		pnlAdd.add(new JLabel("Testing title"), c);
+		pnlAdd.add(lblTitle, c);
 		c.gridy=3;
-		pnlAdd.add(new JLabel("Testing due date"), c);
+		pnlAdd.add(lblDueDate, c);
 
 		c.gridx=1;
 		c.gridy=4;

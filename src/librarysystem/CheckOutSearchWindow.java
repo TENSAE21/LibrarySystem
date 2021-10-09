@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import business.BookCopy;
+import business.LibraryMember;
 import business.SystemController;
 
 import javax.swing.JOptionPane;
@@ -25,8 +28,7 @@ public class CheckOutSearchWindow extends JPanel{
 
 	public CheckOutSearchWindow() {
 		setLayout(new BorderLayout());
-		JLabel lblTitle = new JLabel("Checking out");
-		add(lblTitle, BorderLayout.NORTH);
+		add(new JLabel("Checking out"), BorderLayout.NORTH);
 
 		JPanel pnlAdd = new JPanel(); 
 		pnlAdd.setLayout(new GridBagLayout());  
@@ -69,11 +71,22 @@ public class CheckOutSearchWindow extends JPanel{
 			else
 			{
 				SystemController ctrl = new SystemController();
-				if(ctrl.findMemberByID(memberId) == null || ctrl.findBookByISBN(isbn) == null)
+				LibraryMember resultMember = ctrl.findMemberByID(memberId);
+				BookCopy resultBookCopy = ctrl.findBookByISBN(isbn);
+				if(resultMember == null || resultBookCopy == null)
 					JOptionPane.showMessageDialog(parentFrame, "Wrong Member ID or Not Available Book", "Message",  JOptionPane.ERROR_MESSAGE);
 				else {
 					System.out.println("we will go next");
-					SharedWindow.cl.show(SharedWindow.cards, "Check Out Continue");
+					if(resultBookCopy != null) {
+						int length = resultBookCopy.getBook().getMaxCheckoutLength();
+						LocalDate today = LocalDate.now();
+						LocalDate dueDate = today.plusDays(length);
+						CheckOutContinueWindow.lblISBN.setText(resultBookCopy.getBook().getIsbn());
+						CheckOutContinueWindow.lblTitle.setText(resultBookCopy.getBook().getTitle());
+						CheckOutContinueWindow.lblDueDate.setText(dueDate.toString());
+						SharedWindow.cl.show(SharedWindow.cards, "Check Out Continue");
+						//System.out.println(SharedWindow.libraryMemberToCheckOut + "___"+ SharedWindow.bookCopyToCheckOut);
+					}
 				}
 			}
 		}
