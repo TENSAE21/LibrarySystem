@@ -9,19 +9,19 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewBookWindow extends JFrame implements LibWindow{
-    public static final NewBookWindow INSTANCE = new NewBookWindow();
+public class NewBookWindow extends JPanel implements ActionListener {
+
     ControllerInterface ci = new SystemController();
-    private boolean isInitialized = false;
-    public JPanel getMainPanel() {
-        return mainPanel;
-    }
-    private JPanel mainPanel;
+
+    private JFrame parentFrame;
+
     private JPanel topPanel;
     private JPanel middlePanel;
     private JPanel lowerPanel;
@@ -40,37 +40,24 @@ public class NewBookWindow extends JFrame implements LibWindow{
     private JButton submitButton;
     private JButton addAuthorButton;
 
-//    private JComboBox<String> authorComboBox;
+    //    private JComboBox<String> authorComboBox;
     private JList<String> authorJList;
 
 
 
-    @Override
-    public void init() {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+    public NewBookWindow() {
+        setSize(600, 400);
+        setLayout(new BorderLayout());
+
         defineTopPanel();
         defineMiddlePanel();
         defineLowerPanel();
-        mainPanel.add(topPanel, BorderLayout.NORTH);
-        mainPanel.add(middlePanel, BorderLayout.CENTER);
-        mainPanel.add(lowerPanel, BorderLayout.SOUTH);
-        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        getContentPane().add(mainPanel);
-        isInitialized = true;
+        add(topPanel, BorderLayout.NORTH);
+        add(middlePanel, BorderLayout.CENTER);
+        add(lowerPanel, BorderLayout.SOUTH);
+        setBorder(new EmptyBorder(10, 10, 10, 10));
 
     }
-
-    @Override
-    public boolean isInitialized() {
-        return isInitialized;
-    }
-
-    @Override
-    public void isInitialized(boolean val) {
-        isInitialized = val;
-    }
-
 
     public void defineTopPanel() {
         topPanel = new JPanel();
@@ -195,20 +182,11 @@ public class NewBookWindow extends JFrame implements LibWindow{
     }
 
 
-
     String checkBookValues()
     {
         return null;
     }
 
-    JPanel getNewBookPanel()
-    {
-        init();
-        pack();
-        setVisible(true);
-
-        return mainPanel;
-    }
     public void defineLowerPanel() {
         lowerPanel = new JPanel();
         FlowLayout fl = new FlowLayout(FlowLayout.CENTER);
@@ -217,6 +195,15 @@ public class NewBookWindow extends JFrame implements LibWindow{
         submitButton = new JButton("ADD");
         addButtonListener(submitButton);
         lowerPanel.add(submitButton);
+
+    }
+
+    public void setParentJFrame(JFrame parent) {
+        this.parentFrame = parent;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
     }
 }

@@ -7,10 +7,10 @@ import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 
 public interface ControllerInterface {
-	public void login(String id, String password) throws LoginException;
-	public List<String> allMemberIds();
-	public List<String> allBookIds();
-	public List<String> allAuthorNames();
-    public void addBook(String Title, String ISBN, int checkoutLen, List<String> authorNames,int copies);
+	void login(String id, String password) throws LoginException;
+	List<String> allMemberIds();
+	List<String> allBookIds();
+	List<String> allAuthorNames();
+    void addBook(String Title, String ISBN, int checkoutLen, List<String> authorNames,int copies);
 	
 }
