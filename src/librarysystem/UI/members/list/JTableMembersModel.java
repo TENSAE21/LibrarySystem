@@ -58,5 +58,9 @@ class JTableMembersModel extends AbstractTableModel {
     	members.add(member);
     	fireTableDataChanged();
     }
+    
+    public LibraryMember getMemberById(String id) {
+    	return members.stream().filter(m -> m.getMemberId() == id).collect(Collectors.toList()).get(0);
+    }
 
 }
