@@ -36,7 +36,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		LoginWindow.INSTANCE,
 		AllMemberIdsWindow.INSTANCE,	
 		AllBookIdsWindow.INSTANCE
-
 	};
     	
 	public static void hideAllWindows() {
@@ -104,7 +103,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 
     }
     
-    class LoginListener implements ActionListener {
+    static class LoginListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -129,7 +128,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			for(String s: ids) {
 				sb.append(s + "\n");
 			}
-			System.out.println(sb.toString());
+			System.out.println(sb);
 			AllBookIdsWindow.INSTANCE.setData(sb.toString());
 			AllBookIdsWindow.INSTANCE.pack();
 			//AllBookIdsWindow.INSTANCE.setSize(660,500);
@@ -167,8 +166,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		}
     	
     }
-
-
 
 
 	@Override

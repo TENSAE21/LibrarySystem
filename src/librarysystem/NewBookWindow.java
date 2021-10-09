@@ -40,7 +40,7 @@ public class NewBookWindow extends JPanel implements ActionListener {
     private JButton submitButton;
     private JButton addAuthorButton;
 
-//    private JComboBox<String> authorComboBox;
+    //    private JComboBox<String> authorComboBox;
     private JList<String> authorJList;
 
 
@@ -154,6 +154,7 @@ public class NewBookWindow extends JPanel implements ActionListener {
             int checkoutLengthText = Integer.parseInt(checkoutLengthTextField.getText());
             int numCopies = Integer.parseInt(numberOfCopiesTextField.getText());
             String isbnText =  ISBNTextField.getText();
+//            System.out.println(isbnText);
 
             for (Object name: authorJList.getSelectedValues()){
                 String s = (String) name;

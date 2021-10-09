@@ -3,8 +3,8 @@ package dataaccess;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import business.*;
+
 
 /**
  * This class loads data into the data repository and also
@@ -42,21 +42,22 @@ public class TestData {
 	public void userData() {
 		DataAccessFacade.loadUserMap(allUsers);
 	}
-	
+
 	//create library members
 	public void libraryMemberData() {
 		LibraryMember libraryMember = new LibraryMember( "Andy", "Rogers", "641-223-2211", addresses.get(4), new CheckoutRecord());
 		members.add(libraryMember);
 		libraryMember = new LibraryMember("Drew", "Stevens", "702-998-2414", addresses.get(5), new CheckoutRecord());
 		members.add(libraryMember);
-		
+
 		libraryMember = new LibraryMember( "Sarah", "Eagleton", "451-234-8811", addresses.get(6), new CheckoutRecord());
 		members.add(libraryMember);
-		
+
 		libraryMember = new LibraryMember("Ricardo", "Montalbahn", "641-472-2871", addresses.get(7), new CheckoutRecord());
 		members.add(libraryMember);
-		
-		DataAccessFacade.loadMemberMap(members);	
+
+		DataAccessFacade.loadMemberMap(members);
+
 	}
 	
 	///////////// DATA //////////////
