@@ -11,6 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import business.SystemController;
+
 import javax.swing.JOptionPane;
 
 public class CheckOutSearchWindow extends JPanel{
@@ -65,8 +68,13 @@ public class CheckOutSearchWindow extends JPanel{
 				JOptionPane.showMessageDialog(parentFrame, "Member ID and ISBN should not be empty", "Message",  JOptionPane.WARNING_MESSAGE);
 			else
 			{
-				System.out.println("Gonna search");
-				SharedWindow.cl.show(SharedWindow.cards, "Check Out Continue");
+				SystemController ctrl = new SystemController();
+				if(ctrl.findMemberByID(memberId) == null || ctrl.findBookByISBN(isbn) == null)
+					JOptionPane.showMessageDialog(parentFrame, "Wrong Member ID or Not Available Book", "Message",  JOptionPane.ERROR_MESSAGE);
+				else {
+					System.out.println("we will go next");
+					SharedWindow.cl.show(SharedWindow.cards, "Check Out Continue");
+				}
 			}
 		}
 	}
