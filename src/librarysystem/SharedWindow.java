@@ -28,8 +28,8 @@ public class SharedWindow extends JFrame {
 	static JPanel cards = new JPanel(new CardLayout());;
 	static CardLayout cl;
 
-	private static final int maxWidth = 700;
-	private static final int maxLength = 400;
+	public static final int maxWidth = 700;
+	public static final int maxLength = 400;
 
 	public SharedWindow() {
 		setSize(maxWidth, maxLength);
@@ -64,11 +64,14 @@ public class SharedWindow extends JFrame {
 		cards.add(pnlDashboard, "Dashboard");
 		cards.add(pnlAddNewAuthor, "Add New Author");
 		cards.add(new AddNewLibraryMemberWindow(), "Add New Member");
+ 		cards.add(new NewBookWindow(), "Add New Book");
 		cards.add(new ListAllMembersWindow(), "Member List");
 		cards.add(new ListAllBooksWindow(), "Book List");
+
 		cards.add(new CheckOutSearchWindow(), "Check Out");
 		cards.add(new CheckOutContinueWindow(), "Check Out Continue");
 		cards.add(new CheckOutListWindow(), "Check Out List");
+
 		//connect JList elements to CardLayout panels
 		linkList.addListSelectionListener(event -> {
 			String value = linkList.getSelectedValue().toString();

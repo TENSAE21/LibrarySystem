@@ -3,12 +3,8 @@ package dataaccess;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import business.*;
 
-import business.Address;
-import business.Author;
-import business.Book;
-import business.LibraryMember;
-import business.LibraryMemberFactory;
 
 /**
  * This class loads data into the data repository and also
@@ -46,23 +42,22 @@ public class TestData {
 	public void userData() {
 		DataAccessFacade.loadUserMap(allUsers);
 	}
-	
+
 	//create library members
 	public void libraryMemberData() {
-		members.add(
-			LibraryMemberFactory.create("Andy", "Rogers", "641-223-2211", "5001 Venice Dr.", "Los Angeles", "CA", "93736")
-		);
-		members.add(
-			LibraryMemberFactory.create("Drew", "Stevens", "702-998-2414", "1435 Channing Ave", "Palo Alto", "CA", "94301")
-		);
-		members.add(
-			LibraryMemberFactory.create("Sarah", "Eagleton", "451-234-8811", "42 Dogwood Dr.", "Fairfield", "IA", "52556")
-		);
-		members.add(
-			LibraryMemberFactory.create("Ricardo", "Montalbahn", "641-472-2871", "501 Central", "Mountain View", "CA", "94707")
-		);
-		
-		DataAccessFacade.loadMemberMap(members);	
+		LibraryMember libraryMember = new LibraryMember( "Andy", "Rogers", "641-223-2211", addresses.get(4), new CheckoutRecord());
+		members.add(libraryMember);
+		libraryMember = new LibraryMember("Drew", "Stevens", "702-998-2414", addresses.get(5), new CheckoutRecord());
+		members.add(libraryMember);
+
+		libraryMember = new LibraryMember( "Sarah", "Eagleton", "451-234-8811", addresses.get(6), new CheckoutRecord());
+		members.add(libraryMember);
+
+		libraryMember = new LibraryMember("Ricardo", "Montalbahn", "641-472-2871", addresses.get(7), new CheckoutRecord());
+		members.add(libraryMember);
+
+		DataAccessFacade.loadMemberMap(members);
+
 	}
 	
 	///////////// DATA //////////////
