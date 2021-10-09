@@ -126,5 +126,9 @@ public class SystemController implements ControllerInterface {
 	public HashMap<String, LibraryMember> getLibraryMembers() {
 		return da.readMemberMap();
 	}
+	
+	public HashMap<String, Book> getBooks() {
+		return da.readBooksMap();
+	}
 
 }
