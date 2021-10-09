@@ -9,6 +9,7 @@ import dataaccess.DataAccessFacade;
 import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
+	private DataAccessFacade da = new DataAccessFacade();
 	public static Set<Author> authorSet = getAuthorSet();
 	public static List<Address> addressList = setAddressList();
   
@@ -120,6 +121,10 @@ public class SystemController implements ControllerInterface {
 	
 	public void persistNewLibraryMember(LibraryMember libraryMember) throws LoginException {
 		//SERIALIZE NEW MEMBER INTO THE DATABASE FILE
+	}
+	
+	public HashMap<String, LibraryMember> getLibraryMembers() {
+		return da.readMemberMap();
 	}
 
 }

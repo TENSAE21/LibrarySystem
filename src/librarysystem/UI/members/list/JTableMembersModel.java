@@ -1,23 +1,20 @@
 package librarysystem.UI.members.list;
 
 import business.LibraryMember;
+import business.SystemController;
 
-import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class JTableMembersModel extends AbstractTableModel {
-    private List<LibraryMember> members = new ArrayList<LibraryMember>(
-            Arrays.asList(
-                    new LibraryMember("John", "Silva"),
-                    new LibraryMember("Nina", "Borges"),
-                    new LibraryMember("Fernanda", "Smith"),
-                    new LibraryMember("Junior", "Johson"),
-                    new LibraryMember("Evelyn", "Santos")
-            )
-    );
+	private static final long serialVersionUID = 1L;
+	private SystemController controller = new SystemController();
+	private HashMap<String, LibraryMember> membersSet = controller.getLibraryMembers();
+    private List<LibraryMember> members = membersSet.values()
+            .stream()
+            .collect(Collectors.toList());
 
     private List<LibraryMember> rows = members;
 
@@ -52,7 +49,8 @@ class JTableMembersModel extends AbstractTableModel {
         return false;
     }
     
-    public Class getColumnClass(int column) {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public Class getColumnClass(int column) {
         return getValueAt(0, column).getClass();
     }
 
