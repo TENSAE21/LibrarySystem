@@ -21,8 +21,8 @@ import javax.swing.JOptionPane;
 
 public class CheckOutSearchWindow extends JPanel{
 	private static final long serialVersionUID = 1L;
-	private JTextField txtMemberId = new JTextField(15);
-	private JTextField txtISBN = new JTextField(15);
+	private static JTextField txtMemberId = new JTextField(15);
+	private static JTextField txtISBN = new JTextField(15);
 
 	private JFrame parentFrame;
 
@@ -63,6 +63,7 @@ public class CheckOutSearchWindow extends JPanel{
 	public void setParentJFrame(JFrame parent) {
 		this.parentFrame = parent;
 	}
+	
 	class SearchAuthorButtonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -94,5 +95,10 @@ public class CheckOutSearchWindow extends JPanel{
 				}
 			}
 		}
+	}
+
+	static void clearInputs() {
+		txtMemberId.setText("");
+		txtISBN.setText("");
 	}
 }
