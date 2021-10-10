@@ -74,10 +74,10 @@ public class NewBookWindow extends JPanel implements ActionListener {
 		Util.adjustLabelFont(AddBookLabel, Util.DARK_BLUE, true);
 		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		JButton backButton = new JButton("< Back");
-		backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-		addBackButtonListener(backButton);
-		topPanel.add(backButton);
+		//JButton backButton = new JButton("< Back");
+		//backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+		//addBackButtonListener(backButton);
+		//topPanel.add(backButton);
 		topPanel.add(AddBookLabel);
 	}
 
@@ -160,12 +160,12 @@ public class NewBookWindow extends JPanel implements ActionListener {
 
 	}
 
-	private void addBackButtonListener(JButton butn) {
+	/*private void addBackButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			LibrarySystem.hideAllWindows();
 			LibrarySystem.INSTANCE.setVisible(true);
 		});
-	}
+	}*/
 
 
 	private void addButtonListener(JButton butn) {
@@ -271,6 +271,7 @@ public class NewBookWindow extends JPanel implements ActionListener {
 	boolean checkBookValues(List<String> names, String ... inputs)
 	{
 		for (String s: inputs) {
+			System.out.println(s);
 			if (s.isEmpty())
 				return false;
 		}
