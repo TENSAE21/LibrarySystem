@@ -33,9 +33,12 @@ public class AddNewAuthorWindow extends JPanel{
 	private JTextField txtState = new JTextField(15);
 	private JTextField txtZipCode = new JTextField(15);
 
+	private boolean fromBook;
+
 	private JFrame parentFrame;
 
-	public AddNewAuthorWindow() {
+	public AddNewAuthorWindow(boolean fromBook) {
+		this.fromBook = fromBook;
 		setLayout(new BorderLayout());
 		JLabel lblTitle = new JLabel("Adding New Author");
 		add(lblTitle, BorderLayout.NORTH);
@@ -131,6 +134,10 @@ public class AddNewAuthorWindow extends JPanel{
 					SystemController systemController = new SystemController();
 					systemController.AddNewMember(fName, lName, phNum, street, city, state, zip, bio);
 					JOptionPane.showMessageDialog(parentFrame,"Successful added", "Message",  JOptionPane.INFORMATION_MESSAGE);
+					if(fromBook)
+					{
+						NewBookWindow.getNBW().updateAuthorList();
+					}
 					clearAllText();
 				} catch (LoginException ex) {
 					JOptionPane.showMessageDialog(parentFrame, ex.getMessage(), "Message",  JOptionPane.ERROR_MESSAGE);
