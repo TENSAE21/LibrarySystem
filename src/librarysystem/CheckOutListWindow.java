@@ -25,7 +25,6 @@ public class CheckOutListWindow extends JPanel{
 	private static JScrollPane scrollPane = new JScrollPane(table);
 
 	public CheckOutListWindow() {
-		//System.out.println("listing window started with "+entryModel.entries.size());
 		setLayout(new BorderLayout());
 		
 		JPanel pnlHeader = new JPanel();
@@ -73,7 +72,6 @@ public class CheckOutListWindow extends JPanel{
 			entryModel = new CheckOutEntryModel();
 		}
 		entryModel.setTableValues(list);
-		//System.out.println("After updating " + entryModel.entries.size());
 		table.updateUI();
 		scrollPane.updateUI();
 	}

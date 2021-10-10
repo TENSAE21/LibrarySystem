@@ -63,7 +63,7 @@ public class CheckOutSearchWindow extends JPanel{
 	public void setParentJFrame(JFrame parent) {
 		this.parentFrame = parent;
 	}
-	
+
 	class SearchAuthorButtonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -81,7 +81,6 @@ public class CheckOutSearchWindow extends JPanel{
 				if(resultMember == null || nextAvailableCopy == null)
 					JOptionPane.showMessageDialog(parentFrame, "Wrong Member ID or Not Available Book", "Message",  JOptionPane.ERROR_MESSAGE);
 				else {
-					System.out.println("we will go next");
 					if(nextAvailableCopy != null) {
 						int length = nextAvailableCopy.getBook().getMaxCheckoutLength();
 						LocalDate today = LocalDate.now();
@@ -90,7 +89,6 @@ public class CheckOutSearchWindow extends JPanel{
 						CheckOutContinueWindow.lblTitle.setText(nextAvailableCopy.getBook().getTitle());
 						CheckOutContinueWindow.lblDueDate.setText(dueDate.toString());
 						SharedWindow.cl.show(SharedWindow.cards, "Check Out Continue");
-						//System.out.println(SharedWindow.libraryMemberToCheckOut + "___"+ SharedWindow.bookCopyToCheckOut);
 					}
 				}
 			}

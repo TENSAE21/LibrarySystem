@@ -1,17 +1,9 @@
 package librarysystem;
 
 import java.util.List;
-
-import business.Book;
 import business.CheckoutEntry;
-import business.SystemController;
-
 import javax.swing.table.AbstractTableModel;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.stream.Collectors;
 
 public class CheckOutEntryModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;

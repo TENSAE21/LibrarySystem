@@ -58,7 +58,7 @@ public class CheckOutContinueWindow extends JPanel{
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new BackButtonListener());
 		pnlAdd.add(btnBack, c);
-		
+
 		c.gridx=1;
 		JButton btnContinue = new JButton("Continue");
 		btnContinue.addActionListener(new ContinueButtonListener());
@@ -79,7 +79,6 @@ public class CheckOutContinueWindow extends JPanel{
 			BookCopy copy = CheckOutSearchWindow.nextAvailableCopy;
 			SystemController ctrl = new SystemController();
 			if(ctrl.saveCheckOut(member, copy)) {
-				System.out.println("Checking Out Process succeed");
 				CheckOutListWindow.lblMemberName.setText(member.getFirstName() + " " + member.getLastName());
 				CheckOutListWindow.lblMemberID.setText(member.getMemberId());
 				CheckOutListWindow.updateModel(member.getRecord().getEntries());
@@ -90,7 +89,6 @@ public class CheckOutContinueWindow extends JPanel{
 
 		}
 	}
-
 	class BackButtonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {

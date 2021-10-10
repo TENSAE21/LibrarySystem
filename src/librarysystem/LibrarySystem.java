@@ -21,6 +21,7 @@ import business.SystemController;
 
 
 public class LibrarySystem extends JFrame implements LibWindow {
+	private static final long serialVersionUID = 1L;
 	ControllerInterface ci = new SystemController();
 	public final static LibrarySystem INSTANCE = new LibrarySystem();
 	JPanel mainPanel;
