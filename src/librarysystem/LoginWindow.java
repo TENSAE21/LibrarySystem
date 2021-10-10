@@ -193,7 +193,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 			SystemController systemController = new SystemController();
 			String inputUserid = userid.getText();
 			String inputPassword = password.getText();
-			System.out.println(inputUserid + "_" + inputPassword);
+			//System.out.println(inputUserid + "_" + inputPassword);
 			if(inputUserid.trim().length() == 0 || inputPassword.trim().length() == 0)
 				JOptionPane.showMessageDialog(this,"User Id and Password must not be empty", "Message",  JOptionPane.WARNING_MESSAGE);
 			else {
