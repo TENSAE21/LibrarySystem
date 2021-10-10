@@ -79,6 +79,8 @@ public class CheckOutContinueWindow extends JPanel{
 			BookCopy copy = CheckOutSearchWindow.nextAvailableCopy;
 			SystemController ctrl = new SystemController();
 			if(ctrl.saveCheckOut(member, copy)) {
+				JOptionPane.showMessageDialog(parentFrame, "Checking Out Process Succeed", "Message",  JOptionPane.INFORMATION_MESSAGE);
+
 				CheckOutListWindow.lblMemberName.setText(member.getFirstName() + " " + member.getLastName());
 				CheckOutListWindow.lblMemberID.setText(member.getMemberId());
 				CheckOutListWindow.updateModel(member.getRecord().getEntries());
@@ -86,7 +88,6 @@ public class CheckOutContinueWindow extends JPanel{
 			}
 			else
 				JOptionPane.showMessageDialog(parentFrame, "Checking Out Process failed", "Message",  JOptionPane.ERROR_MESSAGE);
-
 		}
 	}
 	class BackButtonListener implements ActionListener{
