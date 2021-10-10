@@ -11,6 +11,6 @@ public interface ControllerInterface {
 	List<String> allMemberIds();
 	List<String> allBookIds();
 	List<String> allAuthorNames();
-    void addBook(String Title, String ISBN, int checkoutLen, List<String> authorNames,int copies);
+    Book addBook(String Title, String ISBN, int checkoutLen, List<String> authorNames,int copies);
 	
 }

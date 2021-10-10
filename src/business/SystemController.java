@@ -88,7 +88,7 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public void addBook(String Title, String ISBN, int checkoutLen, List<String> authorNames, int copies) {
+	public Book addBook(String Title, String ISBN, int checkoutLen, List<String> authorNames, int copies) {
 
 		List<Author> bookAuthors = new ArrayList<>();
 		for (String name: authorNames) {
@@ -100,19 +100,41 @@ public class SystemController implements ControllerInterface {
 		Book newBook = new Book(ISBN, Title, checkoutLen, bookAuthors);
 		for (int i=1; i<copies; i++ ) newBook.addCopy();
 
-		DataAccessFacade da = new DataAccessFacade();
-		da.saveNewBook(newBook);
-		System.out.println("Added Book as " + newBook);
+		try {
+			DataAccessFacade da = new DataAccessFacade();
+			da.saveNewBook(newBook);
+			System.out.println("Added Book as " + newBook);
+			return newBook;
+		}catch (Exception e) {
+			System.out.println("ERROR WHILE TRYING TO PERSIST NEW BOOK: " + e.getMessage());
+			return null;
+		}
+	}
+	
+	public void addBookCopies(Book book, int numberOfCopies) {
+		for (int i = 0; i < numberOfCopies; i++) book.addCopy();
+		try {
+			da.saveNewBook(book);
+		}catch (Exception e) {
+			System.out.println("ERROR WHILE TRYING TO UPDATE NUMBER OF COPIES: " + e.getMessage());
+		}
 	}
 
-	public void AddNewMember(String fName, String lName,
+
+	public boolean AddNewMember(String fName, String lName,
 			String phNo, String street, String city, 
 			String state, String zip, String bio) throws LoginException {
 		Address address = new Address(street, city, state, zip);
 		addressList.add(address); //to use from other function
 		Author author = new Author(fName, lName, phNo, address, bio);
 		authorSet.add(author); //to use in adding book
+		System.out.println(addressList.size());
+    //System.out.println("new Size " +authorSet.size());
+		int newSize = authorSet.size();
+
+		return oldSize < newSize; // to see if the member already existed in the set
 	}
+
 
 	public LibraryMember persistNewLibraryMember(String fname, String lname, String phone, String street, String city, String state, String zipcode) throws LoginException {
 		LibraryMember libraryMember = LibraryMemberFactory.create(

@@ -57,4 +57,13 @@ class JTableBookModel extends AbstractTableModel {
 	public Class getColumnClass(int column) {
         return getValueAt(0, column).getClass();
     }
+    
+    public void addRow(Book book) {
+    	books.add(book);
+    	fireTableDataChanged();
+    }
+    
+    public Book getBookByISBN(String isbn) {
+    	return books.stream().filter(b -> b.getIsbn() == isbn).collect(Collectors.toList()).get(0);
+    }
 }

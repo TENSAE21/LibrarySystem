@@ -1,6 +1,10 @@
 package librarysystem.UI.books.list;
 
+import business.Book;
+
 import business.LibraryMember;
+import business.SystemController;
+import dataaccess.Auth;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -15,6 +19,7 @@ import java.util.List;
 
 public class ListAllBooksWindow extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
+	private static SystemController controller = new SystemController();
 	private JFrame parentFrame;
     private static JPanel panel = new JPanel();
     private static JTextField searchField = new JTextField();
@@ -23,7 +28,7 @@ public class ListAllBooksWindow extends JPanel implements ActionListener {
     private List<LibraryMember> members = new ArrayList<LibraryMember>();
     private final String[] filters = { "By name", "By ISBN"};
     private JComboBox filterOptions = new JComboBox(filters);
-    private JTableBookModel tableModel = new JTableBookModel();
+    private static JTableBookModel tableModel = new JTableBookModel();
     private TableRowSorter sorter = new TableRowSorter<JTableBookModel>(tableModel);
     private RowFilter<JTableBookModel, Object> rf = null;
     private JTable table = new JTable(tableModel);
@@ -70,14 +75,36 @@ public class ListAllBooksWindow extends JPanel implements ActionListener {
         table.getColumnModel().getColumn(2).setMaxWidth(90);
         table.getColumnModel().getColumn(2).setMinWidth(90);
         table.addMouseListener(new MouseAdapter() {
-            @Override
+            @SuppressWarnings("static-access")
+			@Override
             public void mouseClicked(MouseEvent evt) {
                 JTable table = (JTable)evt.getSource();
                 int row = table.getSelectedRow();
                 int column = table.getSelectedColumn();
                 if(column == 2) {
-                    String isbn = (String)table.getValueAt(row, 0);
-                    System.out.println("Opening edit window for book with isbn: " + isbn);
+                	if (controller.currentAuth == Auth.LIBRARIAN) {
+                		JOptionPane.showMessageDialog(parentFrame,"You do not have access to add a new copy", "Message",  JOptionPane.INFORMATION_MESSAGE);
+                		return;
+                	}
+                	String s = (String)JOptionPane.showInputDialog(
+                            parentFrame,
+                            "How many copies?",
+                            "Add new copy",
+                            JOptionPane.PLAIN_MESSAGE);
+                	
+                	if ((s != null) && (s.length() > 0)) {
+                	    try {
+                	    	int numberOfCopies = Integer.parseInt(s);
+                	    	String isbn = (String)table.getValueAt(row, 0);
+                        	Book b = tableModel.getBookByISBN(isbn);
+                        	controller.addBookCopies(b, numberOfCopies);
+                        	JOptionPane.showMessageDialog(parentFrame,"New copies successfully added", "Message",  JOptionPane.INFORMATION_MESSAGE);
+                        	System.out.println("Successfully added new copies for book with isbn: " + isbn);
+                	    }catch (Exception e) {
+                	    	JOptionPane.showMessageDialog(parentFrame,"Enter a valid number", "Message",  JOptionPane.INFORMATION_MESSAGE);
+                	    	System.out.println(e.getMessage());
+						}
+                	}
                 }
             }
         });
@@ -135,6 +162,10 @@ public class ListAllBooksWindow extends JPanel implements ActionListener {
             }
             sorter.setRowFilter(rf);
         }
+    }
+    
+    public static void notifyTableChanged(Book book) {
+    	tableModel.addRow(book);
     }
 }
 
