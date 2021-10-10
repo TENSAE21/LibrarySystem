@@ -52,7 +52,7 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
     }
 
     private void prepareHeaderComponents() {
-        searchField.setPreferredSize(new Dimension(300, 30));
+        searchField.setPreferredSize(new Dimension(200, 30));
         searchButton.setPreferredSize(new Dimension(75, 35));
         searchButton.addActionListener(this);
         resetButton.setPreferredSize(new Dimension(50, 30));
