@@ -62,4 +62,8 @@ class JTableBookModel extends AbstractTableModel {
     	books.add(book);
     	fireTableDataChanged();
     }
+    
+    public Book getBookByISBN(String isbn) {
+    	return books.stream().filter(b -> b.getIsbn() == isbn).collect(Collectors.toList()).get(0);
+    }
 }

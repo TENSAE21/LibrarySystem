@@ -111,6 +111,15 @@ public class SystemController implements ControllerInterface {
 			return null;
 		}
 	}
+	
+	public void addBookCopies(Book book, int numberOfCopies) {
+		for (int i = 0; i < numberOfCopies; i++) book.addCopy();
+		try {
+			da.saveNewBook(book);
+		}catch (Exception e) {
+			System.out.println("ERROR WHILE TRYING TO UPDATE NUMBER OF COPIES: " + e.getMessage());
+		}
+	}
 
 
 	public boolean AddNewMember(String fName, String lName,
