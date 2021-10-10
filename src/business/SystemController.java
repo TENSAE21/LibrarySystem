@@ -1,14 +1,16 @@
 package business;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
-import librarysystem.CheckOutSearchWindow;
 
 public class SystemController implements ControllerInterface {
 	private DataAccessFacade da = new DataAccessFacade();
@@ -110,7 +112,7 @@ public class SystemController implements ControllerInterface {
 			return null;
 		}
 	}
-	
+
 	public void addBookCopies(Book book, int numberOfCopies) {
 		for (int i = 0; i < numberOfCopies; i++) book.addCopy();
 		try {
@@ -124,12 +126,18 @@ public class SystemController implements ControllerInterface {
 	public boolean AddNewMember(String fName, String lName,
 			String phNo, String street, String city, 
 			String state, String zip, String bio) throws LoginException {
+		System.out.println(addressList.size());
+
+		int oldSize = authorSet.size();
+		//		System.out.println("Old Size " + oldSize);
+
 		Address address = new Address(street, city, state, zip);
 		addressList.add(address); //to use from other function
 		Author author = new Author(fName, lName, phNo, address, bio);
 		authorSet.add(author); //to use in adding book
+
 		System.out.println(addressList.size());
-    //System.out.println("new Size " +authorSet.size());
+		//		System.out.println("new Size " +authorSet.size());
 		int newSize = authorSet.size();
 
 		return oldSize < newSize; // to see if the member already existed in the set
@@ -202,7 +210,7 @@ public class SystemController implements ControllerInterface {
 		CheckoutRecord record = (member.getRecord() == null) ? new CheckoutRecord() : member.getRecord();
 		record.add(copy);
 		member.setRecord(record);
-		
+
 		//update data
 		DataAccess da = new DataAccessFacade();
 		copy.changeAvailability();
