@@ -59,7 +59,7 @@ public class SharedWindow extends JFrame {
 	/* Organize panels into a CardLayout */
 	public void createPanels() {
 		JPanel pnlDashboard = createDashboardPanel();
-		JPanel pnlAddNewAuthor = new AddNewAuthorWindow();
+		JPanel pnlAddNewAuthor = new AddNewAuthorWindow(false);
 
 		cards.add(pnlDashboard, "Dashboard");
 		cards.add(pnlAddNewAuthor, "Add New Author");

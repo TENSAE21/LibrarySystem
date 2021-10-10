@@ -112,11 +112,14 @@ public class SystemController implements ControllerInterface {
 		}
 	}
 
-	public void AddNewMember(String fName, String lName,
+
+	public boolean AddNewMember(String fName, String lName,
 			String phNo, String street, String city, 
 			String state, String zip, String bio) throws LoginException {
 		System.out.println(addressList.size());
-		System.out.println(authorSet.size());
+
+		int oldSize = authorSet.size();
+//		System.out.println("Old Size " + oldSize);
 
 		Address address = new Address(street, city, state, zip);
 		addressList.add(address); //to use from other function
@@ -124,8 +127,12 @@ public class SystemController implements ControllerInterface {
 		authorSet.add(author); //to use in adding book
 
 		System.out.println(addressList.size());
-		System.out.println(authorSet.size());
+//		System.out.println("new Size " +authorSet.size());
+		int newSize = authorSet.size();
+
+		return oldSize < newSize; // to see if the member already existed in the set
 	}
+
 
 	public LibraryMember persistNewLibraryMember(String fname, String lname, String phone, String street, String city, String state, String zipcode) throws LoginException {
 		LibraryMember libraryMember = LibraryMemberFactory.create(
