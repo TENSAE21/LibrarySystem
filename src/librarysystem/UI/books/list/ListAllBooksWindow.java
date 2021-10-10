@@ -86,8 +86,25 @@ public class ListAllBooksWindow extends JPanel implements ActionListener {
                 		JOptionPane.showMessageDialog(parentFrame,"You do not have access to add a new copy", "Message",  JOptionPane.INFORMATION_MESSAGE);
                 		return;
                 	}
-                    String isbn = (String)table.getValueAt(row, 0);
-                    System.out.println("Opening edit window for book with isbn: " + isbn);
+                	String s = (String)JOptionPane.showInputDialog(
+                            parentFrame,
+                            "How many copies?",
+                            "Add new copy",
+                            JOptionPane.PLAIN_MESSAGE);
+                	
+                	if ((s != null) && (s.length() > 0)) {
+                	    try {
+                	    	int numberOfCopies = Integer.parseInt(s);
+                	    	String isbn = (String)table.getValueAt(row, 0);
+                        	Book b = tableModel.getBookByISBN(isbn);
+                        	controller.addBookCopies(b, numberOfCopies);
+                        	JOptionPane.showMessageDialog(parentFrame,"New copies successfully added", "Message",  JOptionPane.INFORMATION_MESSAGE);
+                        	System.out.println("Successfully added new copies for book with isbn: " + isbn);
+                	    }catch (Exception e) {
+                	    	JOptionPane.showMessageDialog(parentFrame,"Enter a valid number", "Message",  JOptionPane.INFORMATION_MESSAGE);
+                	    	System.out.println(e.getMessage());
+						}
+                	}
                 }
             }
         });
