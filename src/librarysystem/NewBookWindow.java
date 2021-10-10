@@ -271,7 +271,6 @@ public class NewBookWindow extends JPanel implements ActionListener {
 	boolean checkBookValues(List<String> names, String ... inputs)
 	{
 		for (String s: inputs) {
-			System.out.println(s);
 			if (s.isEmpty())
 				return false;
 		}
