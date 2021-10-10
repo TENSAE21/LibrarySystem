@@ -28,8 +28,8 @@ public class SharedWindow extends JFrame {
 	static JPanel cards = new JPanel(new CardLayout());;
 	static CardLayout cl;
 
-	public static final int maxWidth = 850;
-	public static final int maxLength = 400;
+	public static final int maxWidth = 800;
+	public static final int maxLength = 300;
 
 	public SharedWindow() {
 		setSize(maxWidth, maxLength);
@@ -45,13 +45,13 @@ public class SharedWindow extends JFrame {
 
 	private String[] setItems() {
 		if(SystemController.currentAuth == Auth.ADMIN) {
-			return new String[] {"Dashboard", "Book List", "Member List", "Add New Author", "Add New Book", "Add New Member", "Log Out"};
+			return new String[] {"Dashboard", "Book List", "Member List", "Add New Book", "Add New Member", "Log Out"};
 		}
 		else if (SystemController.currentAuth == Auth.LIBRARIAN) {
 			return new String[] {"Dashboard", "Book List", "Member List", "Check Out", "Log Out"};
 		}
 		else if (SystemController.currentAuth == Auth.BOTH) {
-			return new String[] {"Dashboard", "Book List", "Member List", "Add New Author", "Add New Book", "Add New Member",  "Check Out", "Log Out"};
+			return new String[] {"Dashboard", "Book List", "Member List", "Add New Book", "Add New Member",  "Check Out", "Log Out"};
 		}
 		return null;
 	}
