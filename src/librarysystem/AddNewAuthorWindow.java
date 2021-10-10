@@ -132,7 +132,7 @@ public class AddNewAuthorWindow extends JPanel{
 			{
 				try {
 					SystemController systemController = new SystemController();
-					systemController.AddNewMember(fName, lName, phNum, street, city, state, zip, bio);
+					systemController.addNewAuthor(fName, lName, phNum, street, city, state, zip, bio);
 					JOptionPane.showMessageDialog(parentFrame,"Successful added", "Message",  JOptionPane.INFORMATION_MESSAGE);
 					if(fromBook)
 					{
