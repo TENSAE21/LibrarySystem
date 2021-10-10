@@ -15,7 +15,6 @@ public class SystemController implements ControllerInterface {
 	public static Set<Author> authorSet = getAuthorSet();
 	public static List<Address> addressList = setAddressList();
 	//when system started, this list will be null. because there is no place to save for permanent
-	public static List<CheckoutRecord> recordList = new ArrayList<CheckoutRecord>(); 
 
 	public static Auth currentAuth = null;
 
@@ -109,16 +108,10 @@ public class SystemController implements ControllerInterface {
 	public void AddNewMember(String fName, String lName,
 			String phNo, String street, String city, 
 			String state, String zip, String bio) throws LoginException {
-		System.out.println(addressList.size());
-		System.out.println(authorSet.size());
-
 		Address address = new Address(street, city, state, zip);
 		addressList.add(address); //to use from other function
 		Author author = new Author(fName, lName, phNo, address, bio);
 		authorSet.add(author); //to use in adding book
-
-		System.out.println(addressList.size());
-		System.out.println(authorSet.size());
 	}
 
 	public LibraryMember persistNewLibraryMember(String fname, String lname, String phone, String street, String city, String state, String zipcode) throws LoginException {
@@ -182,48 +175,19 @@ public class SystemController implements ControllerInterface {
 	}
 
 	public Boolean saveCheckOut(LibraryMember member, BookCopy copy) {
-		/*System.out.println("Before saving");
-		var bs = da.readBooksMap().values();
-		for(Book b : bs) {
-			for(BookCopy bc : b.getCopies()) {
-				System.out.println(b.getTitle() + "___"+ b.getIsbn()+"___"+b.getMaxCheckoutLength()+"___"+b.getCopies().length + "___"+bc.isAvailable());
-			}
-		}*/
-
 		if(member == null || copy == null) return false;
 		//adding check out record
-		CheckoutRecord record = new CheckoutRecord();
-		record.setLibraryMember(member);
+		CheckoutRecord record = (member.getRecord() == null) ? new CheckoutRecord() : member.getRecord();
 		record.add(copy);
-		recordList.add(record);
-		System.out.println(recordList.size());
-
+		member.setRecord(record);
+		
 		//update data
 		DataAccess da = new DataAccessFacade();
 		copy.changeAvailability();
-		da.saveNewBook(copy.getBook());
 
-		/*System.out.println("After saving");
-		var bss = da.readBooksMap().values();
-		for(Book b : bss) {
-			for(BookCopy bc : b.getCopies()) {
-				System.out.println(b.getTitle() + "___"+ b.getIsbn()+"___"+b.getMaxCheckoutLength()+"___"+b.getCopies().length + "___"+bc.isAvailable());
-			}
-		}*/
+		//saving to data access
+		da.saveNewMember(member); //because check out record added 
+		da.saveNewBook(copy.getBook()); //because isAvailable value changed
 		return true;
-	}
-
-	public HashMap<String, CheckoutEntry> getCheckOutEntries() {
-		HashMap<String, CheckoutEntry> result = new HashMap<String, CheckoutEntry>();
-		if(CheckOutSearchWindow.resultMember == null) return result;
-		var memberId = CheckOutSearchWindow.resultMember.getMemberId();
-		for(CheckoutRecord r : recordList) {
-			if(r.getLibraryMember().getMemberId().equals(memberId))
-				for(CheckoutEntry e : r.getEntries()) {
-					String copyNum = e.getBookCopy().getCopyNum() + "";
-					result.put(copyNum, e);
-				}
-		}
-		return result;
 	}
 }
