@@ -53,8 +53,13 @@ public class CheckOutContinueWindow extends JPanel{
 		c.gridy=3;
 		pnlAdd.add(lblDueDate, c);
 
-		c.gridx=1;
+		c.gridx=0;
 		c.gridy=4;
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new BackButtonListener());
+		pnlAdd.add(btnBack, c);
+		
+		c.gridx=1;
 		JButton btnContinue = new JButton("Continue");
 		btnContinue.addActionListener(new ContinueButtonListener());
 		pnlAdd.add(btnContinue, c);
@@ -77,11 +82,19 @@ public class CheckOutContinueWindow extends JPanel{
 				System.out.println("Checking Out Process succeed");
 				CheckOutListWindow.lblMemberName.setText(member.getFirstName() + " " + member.getLastName());
 				CheckOutListWindow.lblMemberID.setText(member.getMemberId());
+				CheckOutListWindow.updateModel(member.getRecord().getEntries());
 				SharedWindow.cl.show(SharedWindow.cards, "Check Out List");
 			}
 			else
 				JOptionPane.showMessageDialog(parentFrame, "Checking Out Process failed", "Message",  JOptionPane.ERROR_MESSAGE);
-			
+
+		}
+	}
+
+	class BackButtonListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			SharedWindow.cl.show(SharedWindow.cards, "Check Out");
 		}
 	}
 }

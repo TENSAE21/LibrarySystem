@@ -1,28 +1,43 @@
 package librarysystem;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.List;
+
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import business.CheckoutEntry;
+
 public class CheckOutListWindow extends JPanel{
 	private static final long serialVersionUID = 1L;
-	
+
 	static JLabel lblMemberName = new JLabel();
 	static JLabel lblMemberID = new JLabel();
-	
-	static CheckoutEntryModel entryModel = new CheckoutEntryModel();
+
+	private static CheckOutEntryModel entryModel = new CheckOutEntryModel();
 	private static JTable table = new JTable(entryModel);
-	private JScrollPane scrollPane = new JScrollPane(table);
+	private static JScrollPane scrollPane = new JScrollPane(table);
 
 	public CheckOutListWindow() {
+		//System.out.println("listing window started with "+entryModel.entries.size());
 		setLayout(new BorderLayout());
+		
+		JPanel pnlHeader = new JPanel();
+		pnlHeader.setLayout(new FlowLayout());
 		JLabel lblTitle = new JLabel("Check Out List");
-		add(lblTitle, BorderLayout.NORTH);
-
+		pnlHeader.add(lblTitle);
+		JButton btnDone  = new JButton("Done");
+		addDoneButtonListener(btnDone);
+		pnlHeader.add(btnDone);
+		
+		add(pnlHeader, BorderLayout.NORTH);
+		
 		JPanel pnlAdd = new JPanel(); 
 		pnlAdd.setLayout(new GridBagLayout());  
 
@@ -51,5 +66,22 @@ public class CheckOutListWindow extends JPanel{
 
 		add(pnlAdd, BorderLayout.CENTER);
 		add(scrollPane, BorderLayout.SOUTH);
+	}
+
+	public static void updateModel(List<CheckoutEntry> list){
+		if(entryModel == null) {
+			entryModel = new CheckOutEntryModel();
+		}
+		entryModel.setTableValues(list);
+		//System.out.println("After updating " + entryModel.entries.size());
+		table.updateUI();
+		scrollPane.updateUI();
+	}
+	
+	private void addDoneButtonListener(JButton butn) {
+		butn.addActionListener(evt -> {
+			CheckOutSearchWindow.clearInputs();
+			SharedWindow.cl.show(SharedWindow.cards, "Check Out");
+		});
 	}
 }
