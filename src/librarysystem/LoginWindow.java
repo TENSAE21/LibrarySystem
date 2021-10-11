@@ -47,7 +47,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 	private JTextField userid;
 	private JTextField password;
 	//private JLabel label;
-	private JButton loginButton;
+	private JButton btnSubmit;
 
 	public boolean isInitialized() {
 		return isInitialized;
@@ -117,7 +117,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 		topPanel = new JPanel();
 		JPanel intPanel = new JPanel(new BorderLayout());
 		intPanel.add(Box.createRigidArea(new Dimension(0,20)), BorderLayout.NORTH);
-		JLabel loginLabel = new JLabel("WELCOME");
+		JLabel loginLabel = new JLabel("LOGIN");
 		Util.makeBigFont(loginLabel, Color.BLUE.darker());
 		intPanel.add(loginLabel, BorderLayout.CENTER);
 		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -135,9 +135,9 @@ public class LoginWindow extends JFrame implements LibWindow {
 	}
 	private void defineLowerPanel() {
 		lowerPanel = new JPanel();
-		loginButton = new JButton("Login");
-		addLoginButtonListener(loginButton);
-		lowerPanel.add(loginButton);
+		btnSubmit = new JButton("Submit");
+		addSubmitButtonListener(btnSubmit);
+		lowerPanel.add(btnSubmit);
 	}
 
 	private void deineUseridTextPanel() {
@@ -188,7 +188,7 @@ public class LoginWindow extends JFrame implements LibWindow {
     		});
     	}*/
 
-	private void addLoginButtonListener(JButton butn) {
+	private void addSubmitButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			SystemController systemController = new SystemController();
 			String inputUserid = userid.getText();
