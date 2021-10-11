@@ -5,7 +5,6 @@ import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
 import librarysystem.UI.books.list.ListAllBooksWindow;
-
 import librarysystem.UI.members.list.ListAllMembersWindow;
 
 import javax.swing.*;
@@ -74,10 +73,10 @@ public class NewBookWindow extends JPanel implements ActionListener {
 		Util.adjustLabelFont(AddBookLabel, Util.DARK_BLUE, true);
 		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		//JButton backButton = new JButton("< Back");
-		//backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-		//addBackButtonListener(backButton);
-		//topPanel.add(backButton);
+		JButton backButton = new JButton("< Back");
+		backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+		addBackButtonListener(backButton);
+		topPanel.add(backButton);
 		topPanel.add(AddBookLabel);
 	}
 
@@ -97,7 +96,7 @@ public class NewBookWindow extends JPanel implements ActionListener {
 		NumberFormatter formatter = new NumberFormatter(format);
 
 		String phoneMask= "##-#####";
-		String phoneNumber= "1242348";
+		String phoneNumber= "124237648";
 
 		MaskFormatter maskFormatter= null;
 		try {
@@ -127,29 +126,19 @@ public class NewBookWindow extends JPanel implements ActionListener {
 		JPanel addAuthorPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		addAuthorPanel.add(addAuthorButton);
 
-		//        addAuthorButton = new JButton("Add another Author");
-		//        addButtonListener(addAuthorButton);
-
-		//        List<String> authorNameList = ci.allAuthorNames();
-		//        authorNameList.add("+ Add another Author");
-
 		String[] authNames = ci.allAuthorNames().toArray(new String[0]);
-		//        authorComboBox = new JComboBox<String>(authNames);
 
-		//        String[] authButtons = getAuthButtons(authorNameList);
 		authorJList = new JList<>(authNames);
 		authorJList.setFixedCellHeight(15);
 		authorJList.setFixedCellWidth(80);
-		//        authorJList.setVisibleRowCount(4);
 		authorJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-
 
 		middlePanel.add(titleLabel);
 		middlePanel.add(titleTextField);
 		middlePanel.add(isbnLabel);
 		middlePanel.add(ISBNTextField);
 		middlePanel.add(authorLabel);
-		//        middlePanel.add(authorComboBox);
+
 		middlePanel.add(new JScrollPane(authorJList));
 		middlePanel.add(addAuthorPanel);
 		middlePanel.add(checkoutLengthLabel);
@@ -160,24 +149,21 @@ public class NewBookWindow extends JPanel implements ActionListener {
 
 	}
 
-	/*private void addBackButtonListener(JButton butn) {
+	private void addBackButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			LibrarySystem.hideAllWindows();
 			LibrarySystem.INSTANCE.setVisible(true);
 		});
-	}*/
+	}
 
 
 	private void addButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			//            LibrarySystem.hideAllWindows();
-			//takes to successful screen // hidden label in the south red error or green success and check
 			String title = titleTextField.getText();
 			List<String> authorNames = new ArrayList<>();
 			String checkoutInput = (String) checkoutLengthTextField.getSelectedItem();
 			String copiesInput = numberOfCopiesTextField.getText();
 			String isbnText =  ISBNTextField.getText();
-			//            System.out.println(isbnText);
 
 			for (Object name: authorJList.getSelectedValues()){
 				String s = (String) name;
@@ -185,51 +171,23 @@ public class NewBookWindow extends JPanel implements ActionListener {
 				System.out.println(s);
 			}
 
-
 			boolean arefilled = checkBookValues(authorNames, title, isbnText, checkoutInput, copiesInput);
 
 			if(arefilled) {
 				int checkoutLengthText = Integer.parseInt(checkoutInput);
 				int numCopies = Integer.parseInt(copiesInput);
 
-				Book persistedBook = ci.addBook(title, isbnText, checkoutLengthText, authorNames, numCopies);
-				ListAllBooksWindow.notifyTableChanged(persistedBook);
-				successLabel.setText("You have successfully added the book " + title);
+				Book addedBook = ci.addBook(title, isbnText, checkoutLengthText, authorNames, numCopies);
 
-				Color successColor = new Color(173, 230, 102);
-				successLabel.setBackground(successColor);
-				successLabel.setOpaque(true);
-				successLabel.setVisible(true);
-				int delay = 2000; //milliseconds
+				JOptionPane.showMessageDialog(parentFrame,"Book successfully added", "Message",  JOptionPane.INFORMATION_MESSAGE);
+				ListAllBooksWindow.notifyTableChanged(addedBook);
 
-				ActionListener taskPerformer = new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						successLabel.setVisible(false);
-					}
-				};
-				new Timer(delay, taskPerformer).start();
 				clearFields();
 
 			}
 			else{
-				successLabel.setText("Please insert all values");
-				Color failColor = new Color(240, 76, 103);
-				successLabel.setBackground(failColor);
-				successLabel.setOpaque(true);
-				successLabel.setVisible(true);
-				int delay = 2000; //milliseconds
-
-				ActionListener taskPerformer = new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						successLabel.setVisible(false);
-					}
-				};
-				new Timer(delay, taskPerformer).start();
-
+				JOptionPane.showMessageDialog(parentFrame, "Please insert all values", "Error",  JOptionPane.ERROR_MESSAGE);
 			}
-
-
-			//            System.out.printf("Retrieved Values %s\n %s\n %s\n %s\n", title, checkoutLengthText, numCopies, isbnText);
 		});
 	}
 
@@ -240,29 +198,14 @@ public class NewBookWindow extends JPanel implements ActionListener {
 	}
 	private void addAuthorListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			//            LibrarySystem.hideAllWindows();
-			//clears author name area but retrieves what was written
-			// adds it to author list kept here -> zero out at screen re-render
-
-			String authorName = authorTextField.getText();
-
 			JFrame frame = new JFrame("Add New Author");
-			Main.centerFrameOnDesktop(frame);
-			//2. Optional: What happens when the frame closes?
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-			//3. Create components and put them in the frame.
-			//...create emptyLabel...
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 			AddNewAuthorWindow anaw = new AddNewAuthorWindow(true);
 			frame.getContentPane().add(anaw, BorderLayout.CENTER);
-
-			//4. Size the frame.
 			frame.pack();
-
-			//5. Show it.
 			frame.setVisible(true);
-
-			System.out.printf("Retrieved Author %s/n", authorName);
 
 		});
 	}
@@ -275,10 +218,7 @@ public class NewBookWindow extends JPanel implements ActionListener {
 				return false;
 		}
 
-		for (String s: names) {
-			if (s.isEmpty())
-				return false;
-		}
+		if (names.size() == 0) return false;
 		return true;
 	}
 
@@ -286,7 +226,7 @@ public class NewBookWindow extends JPanel implements ActionListener {
 	{
 		titleTextField.setText("");
 		ISBNTextField.setText("");
-		numberOfCopiesTextField.setText("");
+		numberOfCopiesTextField.setValue(null);
 		authorJList.clearSelection();
 	}
 
@@ -299,17 +239,12 @@ public class NewBookWindow extends JPanel implements ActionListener {
 		JPanel buttonPanel = new JPanel();
 		FlowLayout fl = new FlowLayout(FlowLayout.CENTER);
 		buttonPanel.setLayout(fl);
-		//Color successColor = new Color(173,230,102);
-
-
-		successLabel = new JLabel("");
-		successLabel.setVisible(false);
 
 		submitButton = new JButton("ADD");
 		addButtonListener(submitButton);
 		buttonPanel.add(submitButton);
 
-		lowerPanel.add(successLabel);
+
 		lowerPanel.add(buttonPanel);
 
 	}
