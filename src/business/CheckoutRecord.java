@@ -17,9 +17,9 @@ public class CheckoutRecord implements Serializable{
         this.entries.add(new CheckoutEntry(book));
     }
 
-	@Override
+    @Override
 	public String toString() {
-		return "CheckoutRecord [libraryMember=" + libraryMember + ", entries=" + entries + "]";
+		return "CHECKOUT RECORD \nlibraryMember\n" + libraryMember + "\n entries: " + entries;
 	}
 
 	public LibraryMember getLibraryMember() {
