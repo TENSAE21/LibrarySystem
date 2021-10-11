@@ -99,20 +99,10 @@ public class LoginWindow extends JFrame implements LibWindow {
 		middleHalf.setLayout(new BorderLayout());
 		JSeparator s = new JSeparator();
 		s.setOrientation(SwingConstants.HORIZONTAL);
-		//middleHalf.add(Box.createRigidArea(new Dimension(0,50)));
 		middleHalf.add(s, BorderLayout.SOUTH);
 
 	}
-	/*private void defineLowerHalf() {
 
-    		lowerHalf = new JPanel();
-    		lowerHalf.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-    		JButton backButton = new JButton("<= Back to Main");
-    		addBackButtonListener(backButton);
-    		lowerHalf.add(backButton);
-
-    	}*/
 	private void defineTopPanel() {
 		topPanel = new JPanel();
 		JPanel intPanel = new JPanel(new BorderLayout());
@@ -141,67 +131,42 @@ public class LoginWindow extends JFrame implements LibWindow {
 	}
 
 	private void deineUseridTextPanel() {
-
-		//JPanel topText = new JPanel();
 		JPanel bottomText = new JPanel();
-		//topText.setLayout(new FlowLayout(FlowLayout.CENTER));
 		bottomText.setLayout(new FlowLayout(FlowLayout.CENTER));		
 
 		userid = new JTextField(15);
 		new TextPrompt("Enter User ID", userid);
-		//userid.setFont(Util.makeSmallFont(userid.getFont()));
-		//label = new JLabel("User ID");
-		//label.setFont(Util.makeSmallFont(label.getFont()));    		
-		//topText.add(label);
 		bottomText.add(userid);
 
 		leftTextPanel = new JPanel();
 		leftTextPanel.setLayout(new BorderLayout());
-		//leftTextPanel.add(topText,BorderLayout.CENTER);
 		leftTextPanel.add(bottomText,BorderLayout.SOUTH);
 	}
 	private void definePasswordTextPanel() {
-
-		//JPanel topText = new JPanel();
 		JPanel bottomText = new JPanel();
-		//topText.setLayout(new FlowLayout(FlowLayout.CENTER));
 		bottomText.setLayout(new FlowLayout(FlowLayout.CENTER));		
 
 		password = new JPasswordField(15);
 		new TextPrompt("Enter Password", password);
-		//password.setFont(Util.makeSmallFont(password.getFont()));
-		//label = new JLabel("Password");
-		//label.setFont(Util.makeSmallFont(label.getFont()));
-		//topText.add(label);
 		bottomText.add(password);
 
 		rightTextPanel = new JPanel();
 		rightTextPanel.setLayout(new BorderLayout());
-		//rightTextPanel.add(topText,BorderLayout.CENTER);
 		rightTextPanel.add(bottomText,BorderLayout.SOUTH);
 	}
-
-	/*private void addBackButtonListener(JButton butn) {
-    		butn.addActionListener(evt -> {
-    			LibrarySystem.hideAllWindows();
-    			LibrarySystem.INSTANCE.setVisible(true);
-    		});
-    	}*/
 
 	private void addSubmitButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			SystemController systemController = new SystemController();
 			String inputUserid = userid.getText();
 			String inputPassword = password.getText();
-			//System.out.println(inputUserid + "_" + inputPassword);
 			if(inputUserid.trim().length() == 0 || inputPassword.trim().length() == 0)
 				JOptionPane.showMessageDialog(this,"User Id and Password must not be empty", "Message",  JOptionPane.WARNING_MESSAGE);
 			else {
 				try {
 					systemController.login(inputUserid, inputPassword);
-					//JOptionPane.showMessageDialog(this,"Successful Login", "Message",  JOptionPane.INFORMATION_MESSAGE);
 					LibrarySystem.hideAllWindows();
-					
+
 					JFrame frame = new SharedWindow();
 					frame.setTitle("Library System");
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
