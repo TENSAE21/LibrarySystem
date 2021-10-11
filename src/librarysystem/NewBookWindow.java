@@ -172,8 +172,10 @@ public class NewBookWindow extends JPanel implements ActionListener {
 			}
 
 			boolean arefilled = checkBookValues(authorNames, title, isbnText, checkoutInput, copiesInput);
+			boolean notDup = isNotDupISBN(isbnText);
 
-			if(arefilled) {
+
+			if(arefilled && notDup) {
 				int checkoutLengthText = Integer.parseInt(checkoutInput);
 				int numCopies = Integer.parseInt(copiesInput);
 
@@ -185,7 +187,11 @@ public class NewBookWindow extends JPanel implements ActionListener {
 				clearFields();
 
 			}
-			else{
+			else if (!notDup){
+				JOptionPane.showMessageDialog(parentFrame, "Duplicate ISBNs are not allowed", "Error",  JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
 				JOptionPane.showMessageDialog(parentFrame, "Please insert all values", "Error",  JOptionPane.ERROR_MESSAGE);
 			}
 		});
@@ -221,6 +227,18 @@ public class NewBookWindow extends JPanel implements ActionListener {
 		if (names.size() == 0) return false;
 		return true;
 	}
+
+	boolean isNotDupISBN (String isbn){
+		List<String> existingISBN = ci.allBookIds();
+		for (String existing: existingISBN) {
+			if (existing != null) {
+				if (existing.equals(isbn))
+					return false;
+			}
+		}
+		return true;
+	}
+
 
 	void clearFields()
 	{
