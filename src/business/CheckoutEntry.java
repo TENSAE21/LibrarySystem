@@ -15,9 +15,9 @@ public class CheckoutEntry implements Serializable{
         this.dueDate = this.checkoutDate.plusDays(this.book.getBook().getMaxCheckoutLength());
     }
 
-	@Override
+    @Override
 	public String toString() {
-		return "CheckoutEntry [book=" + book + ", checkoutDate=" + checkoutDate + ", dueDate=" + dueDate + "]";
+		return "CheckoutEntry:  \nbook: " + book + "\ncheckoutDate: " + checkoutDate + "\ndueDate: " + dueDate + "\n\n";
 	}
 
 	public BookCopy getBookCopy() {
