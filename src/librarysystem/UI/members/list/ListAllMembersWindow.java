@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import dataaccess.Auth;
+import librarysystem.UI.members.update.UpdateLibraryMemberWindow;
 
 public class ListAllMembersWindow extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -83,8 +84,11 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
                 		JOptionPane.showMessageDialog(parentFrame,"You do not have access to edit a member", "Message",  JOptionPane.INFORMATION_MESSAGE);
                 		return;
                 	}
-                    String id = (String)table.getValueAt(row, 0);
-                    System.out.println("Opening edit window for member with id: " + id);
+                	 String id = (String)table.getValueAt(row, 0);
+                     LibraryMember lm = tableModel.getMemberById(id);
+                     new UpdateLibraryMemberWindow(lm);
+                     System.out.println("Opening edit window for member with id: " + id);
+
                 }
                 if(column != 2) {
                 	String id = (String)table.getValueAt(row, 0);
@@ -150,6 +154,10 @@ public class ListAllMembersWindow extends JPanel implements ActionListener {
     
     public static void notifyTableChanged(LibraryMember member) {
     	tableModel.addRow(member);
+    }
+    
+    public static void notifyTableChanged() {
+    	tableModel.reloadData();
     }
 }
 

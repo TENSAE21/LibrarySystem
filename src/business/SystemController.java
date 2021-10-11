@@ -160,6 +160,16 @@ public class SystemController implements ControllerInterface {
 			return null;
 		}
 	}
+	
+	public void updateLibraryMember(LibraryMember libraryMember) {
+		try {
+			da.saveNewMember(libraryMember);
+			System.out.println("Member successfully updated");
+		}catch (Exception e) {
+			System.out.println("ERROR WHILE TRYING TO CREATE NEW MEMBER: " + e.getMessage());
+		}
+	}
+
 
 	public HashMap<String, LibraryMember> getLibraryMembers() {
 		return da.readMemberMap();
