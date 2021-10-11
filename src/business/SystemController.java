@@ -16,6 +16,8 @@ public class SystemController implements ControllerInterface {
 	private DataAccessFacade da = new DataAccessFacade();
 	public static Set<Author> authorSet = getAuthorSet();
 	public static List<Address> addressList = setAddressList();
+
+
 	//when system started, this list will be null. because there is no place to save for permanent
 
 	public static Auth currentAuth = null;
@@ -75,7 +77,7 @@ public class SystemController implements ControllerInterface {
 
 	@Override
 	public List<String> allBookIds() {
-		DataAccess da = new DataAccessFacade();
+//		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
